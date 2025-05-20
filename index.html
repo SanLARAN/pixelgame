@@ -2,454 +2,217 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pixel Menu & Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROST Clicker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
     body {
       margin: 0;
-      padding: 0;
       font-family: 'Press Start 2P', cursive;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%),
-        url('background.png') no-repeat center center fixed;
-      background-size: cover;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      animation: fadeIn 1.5s ease-in;
-      overflow: hidden;
+      background-color: #000;
       color: #fff;
-      position: relative;
+      overflow: hidden;
     }
-
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
-    .container {
+    .game-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 25px;
-      width: 100%;
-      max-width: 400px;
-      padding: 0 15px;
-      box-sizing: border-box;
-      position: relative;
-      z-index: 1;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
     }
-
-    .logo-wrapper {
-      position: relative;
-      width: 180px;
-      height: auto;
-      user-select: none;
-    }
-
-    /* Плавный радиальный градиент под логотипом */
-    .logo-wrapper::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 220px;
-      height: 120px;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      background: radial-gradient(circle, rgba(0,0,0,0.6) 0%, transparent 70%);
-      border-radius: 50%;
-      z-index: -1;
-      animation: fadeIn 1.5s ease-in;
-    }
-
-    .logo {
-      width: 180px;
-      height: auto;
-      animation: slideInDown 1.2s ease-out;
-      filter: none;
-      display: block;
-      margin: 0 auto;
-    }
-
-    @keyframes slideInDown {
-      from {transform: translateY(-60px); opacity: 0;}
-      to {transform: translateY(0); opacity: 1;}
-    }
-
-    /* Меню кнопки - прозрачные, без плашки */
-    .menu button {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 14px;
-      padding: 15px;
-      background-color: transparent;
-      color: #fff;
-      border: 2px solid #fff;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.15s;
-      width: 100%;
-      max-width: 350px;
-      user-select: none;
-      box-shadow: none; /* убрал свечение */
-    }
-
-    .menu button:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-      transform: scale(1.05);
-      box-shadow: none; /* убрал свечение */
-    }
-
-    #settingsModal, #gameMenuModal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #111;
-      color: #fff;
-      border: 2px solid #fff;
+    .game-button {
+      font-size: 16px;
       padding: 20px;
-      z-index: 20;
-      font-size: 11px;
-      border-radius: 6px;
-      min-width: 260px;
-      box-shadow: none; /* убрал свечение */
-      user-select: none;
-    }
-
-    #settingsModal label {
-      display: block;
-      margin: 12px 0 6px 0;
-    }
-
-    #settingsModal input[type=range] {
-      width: 100%;
+      background-color: #fff;
+      color: #000;
+      border: 3px solid #000;
       cursor: pointer;
     }
-
-    #overlay {
+    .rep-counter {
+      font-size: 14px;
+      margin-top: 20px;
+    }
+    .modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.65);
-      z-index: 15;
-    }
-
-    /* Игровой экран - скрыт изначально */
-    #gameScreen {
-      display: none;
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      background: url('game-bg.png') no-repeat center center fixed;
-      background-size: cover;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      animation: fadeIn 1s ease-in;
-      overflow: hidden;
-      padding-bottom: 50px;
-      box-sizing: border-box;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
       color: #fff;
-    }
-
-    #gameScreen button.game-btn {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 16px;
-      padding: 15px 25px;
-      border: 2px solid #fff;
-      background: transparent;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: none;
-      transition: transform 0.2s, background-color 0.3s;
-      user-select: none;
-      border-radius: 4px;
-      margin-bottom: 10px; /* Смещаем кнопку вниз */
-      align-self: center;
-    }
-
-    #gameScreen button.game-btn:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-      transform: scale(1.07);
-      box-shadow: none;
-    }
-
-    /* Кнопка гамбургер слева сверху */
-    #gameScreen .menu-button {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      width: 36px;
-      height: 36px;
-      border: 2px solid #fff;
-      border-radius: 4px;
-      background: transparent;
-      color: #fff;
-      font-size: 24px;
-      line-height: 32px;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: none;
-      transition: background-color 0.3s;
-      z-index: 25;
-    }
-
-    #gameScreen .menu-button:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Счётчик реп - простой зелёный текст без свечения */
-    #repCounter {
-      position: absolute;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #22c55e;
-      font-size: 16px;
-      font-weight: bold;
-      user-select: none;
-      z-index: 20;
-      text-shadow: none;
-    }
-
-    /* Анимация +rep */
-    .rep-fly {
-      position: absolute;
-      color: #22c55e;
-      font-weight: bold;
-      font-size: 14px;
-      user-select: none;
-      pointer-events: none;
-      animation: repUpFade 1s forwards;
-      text-shadow: none; /* убрал свечения */
-    }
-
-    @keyframes repUpFade {
-      0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-40px) scale(1.3);
-      }
-    }
-
-    /* Модальное меню гамбургера с выбором */
-    #gameMenuModal button {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 12px;
-      padding: 8px 12px;
-      border: 2px solid #fff;
-      background-color: transparent;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: none;
-      user-select: none;
-      transition: background-color 0.3s;
-      margin-top: 10px;
-      width: 100%;
-      border-radius: 4px;
-    }
-
-    #gameMenuModal button:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-      box-shadow: none;
-    }
-
-    /* Версия игры внизу слева главного меню */
-    #versionLabel {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      font-family: 'Press Start 2P', cursive;
       font-size: 10px;
-      color: #aaa;
-      user-select: none;
-      opacity: 0.7;
-      pointer-events: none;
+      padding: 40px;
+      box-sizing: border-box;
+      z-index: 10;
+    }
+    .modal h2 {
+      font-size: 12px;
+    }
+    .modal button {
+      font-size: 10px;
+      padding: 5px;
+      margin-top: 10px;
+      background: #fff;
+      color: #000;
+      border: 2px solid #fff;
+      cursor: pointer;
+    }
+    .menu {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      background: #000;
       z-index: 5;
+    }
+    .menu button {
+      padding: 12px;
+      font-size: 12px;
+      border: 2px solid #fff;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+    }
+    .rep-fly {
+      position: fixed;
+      font-size: 12px;
+      animation: flyUp 1s ease-out forwards;
+      color: #0f0;
+      z-index: 20;
+      pointer-events: none;
+    }
+    @keyframes flyUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-50px); opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <div id="overlay" onclick="closeModals()"></div>
+  <div id="menuScreen" class="menu">
+    <button onclick="startGame()">Начать</button>
+    <button onclick="openRules()">Правила</button>
+    <button onclick="openSettings()">Настройки</button>
+  </div>
 
-  <!-- Настройки -->
-  <div id="settingsModal">
-    <h3>Настройки</h3>
-    <label>🎵 Музыка: <input type="checkbox" id="musicToggle"></label>
-    <label>🎶 Громкость музыки: <input type="range" id="musicVolume" min="0" max="100"></label>
-    <label>🔊 Громкость звуков: <input type="range" id="soundVolume" min="0" max="100"></label>
+  <div class="game-container" id="gameScreen" style="display: none;">
+    <button class="game-button" onclick="gameButtonClick(event)">+REP</button>
+    <div class="rep-counter" id="repCounter">Репутация: 0</div>
+  </div>
+
+  <!-- Модалки -->
+  <div id="rulesModal" class="modal">
+    <h2>Правила</h2>
+    <p>Нажимай, копи репутацию, покупай прокачки, реагируй на события!</p>
+    <button onclick="closeModals()">Закрыть</button>
+  </div>
+  <div id="settingsModal" class="modal">
+    <h2>Настройки</h2>
+    <p>Пока пусто :)</p>
     <button onclick="closeModals()">Закрыть</button>
   </div>
 
-  <!-- Меню гамбургер -->
-  <div id="gameMenuModal">
-    <button onclick="goToMenu()">🏠 Главное меню</button>
-    <button onclick="openSettings()">⚙️ Настройки</button>
-    <button onclick="closeModals()">❌ Закрыть</button>
+  <!-- Прокачка и инвентарь -->
+  <div id="upgradePanel" style="display:none; position:fixed; bottom:60px; right:15px; z-index:20;">
+    <button onclick="buyUpgrade()" style="font-family:'Press Start 2P'; font-size:10px; padding:8px; background:#000; color:#0f0; border:2px solid #0f0;">💪 Прокачать (100)</button>
   </div>
 
-  <!-- Главное меню -->
-  <div class="container" id="menuScreen">
-    <div class="logo-wrapper">
-      <img src="logo.png" alt="Логотип" class="logo" draggable="false" />
-    </div>
-    <div class="menu">
-      <button onclick="startGame()">🎮 Начать</button>
-      <button onclick="openRules()">📜 Правила</button>
-      <button onclick="openSettings()">⚙️ Настройки</button>
-    </div>
+  <div id="inventoryPanel" style="display:none; position:fixed; top:60px; right:15px; z-index:20; background:#111; border:2px solid #fff; padding:10px; color:#fff; font-size:10px; font-family:'Press Start 2P'; border-radius:6px;">
+    <h4 style="margin-top:0;">🎒 Инвентарь</h4>
+    <ul id="inventoryList" style="list-style:none; padding-left:0;"></ul>
   </div>
 
-  <div id="versionLabel">Версия 1.0.0</div>
-
-  <!-- Игровой экран -->
-  <div id="gameScreen">
-    <div class="menu-button" title="Меню" onclick="toggleGameMenu()">☰</div>
-    <div id="repCounter">Rep: 0</div>
-    <button class="game-btn" onclick="gameButtonClick(event)">🕹️ Кликни меня</button>
-  </div>
-
-  <!-- Музыка -->
-  <audio id="bgMusic" src="your-music.mp3" loop autoplay></audio>
-
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+    let repCount = 0;
+    let upgrades = 0;
+    let repPerClick = 1;
+    let inventory = [];
 
-    const musicAudio = document.getElementById('bgMusic');
-    const musicToggle = document.getElementById('musicToggle');
-    const musicVolume = document.getElementById('musicVolume');
-    const soundVolume = document.getElementById('soundVolume');
-
-    // Загрузка настроек из localStorage или установка дефолтов
-    function loadSettings() {
-      const musicOn = localStorage.getItem('musicOn');
-      const musicVol = localStorage.getItem('musicVolume');
-      const soundVol = localStorage.getItem('soundVolume');
-
-      if (musicOn === null) {
-        musicToggle.checked = true;
-        musicAudio.play();
-      } else {
-        musicToggle.checked = (musicOn === 'true');
-        if (musicToggle.checked) musicAudio.play();
-        else musicAudio.pause();
-      }
-
-      musicVolume.value = musicVol !== null ? musicVol : 50;
-      musicAudio.volume = musicVolume.value / 100;
-
-      soundVolume.value = soundVol !== null ? soundVol : 70;
+    function updateRepCounter() {
+      document.getElementById('repCounter').textContent = 'Репутация: ' + repCount;
     }
 
-    // Сохранение настроек в localStorage
-    function saveSettings() {
-      localStorage.setItem('musicOn', musicToggle.checked);
-      localStorage.setItem('musicVolume', musicVolume.value);
-      localStorage.setItem('soundVolume', soundVolume.value);
+    function gameButtonClick(event) {
+      repCount += repPerClick;
+      updateRepCounter();
+      showRepText(event);
+      if (Math.random() < 0.1) triggerRandomEvent();
     }
 
-    musicToggle.addEventListener('change', () => {
-      if (musicToggle.checked) {
-        musicAudio.play();
+    function showRepText(event) {
+      const button = event.currentTarget;
+      const rect = button.getBoundingClientRect();
+      const repText = document.createElement('div');
+      repText.textContent = '+rep';
+      repText.className = 'rep-fly';
+      repText.style.left = (rect.left + rect.width / 2 + (Math.random() * 40 - 20)) + 'px';
+      repText.style.top = (rect.top - 10) + 'px';
+      document.body.appendChild(repText);
+      repText.addEventListener('animationend', () => repText.remove());
+    }
+
+    function buyUpgrade() {
+      if (repCount >= 100) {
+        repCount -= 100;
+        upgrades++;
+        repPerClick++;
+        updateRepCounter();
+        alert(`Ты прокачался! Теперь +${repPerClick} репа за клик.`);
       } else {
-        musicAudio.pause();
+        alert('Недостаточно репутации!');
       }
-      saveSettings();
-    });
+    }
 
-    musicVolume.addEventListener('input', () => {
-      musicAudio.volume = musicVolume.value / 100;
-      saveSettings();
-    });
+    function triggerRandomEvent() {
+      const eventChance = Math.random();
+      if (eventChance < 0.33) {
+        const item = "🥤 Энергетик";
+        inventory.push(item);
+        updateInventory();
+        alert("Событие! Ты нашёл " + item);
+      } else if (eventChance < 0.66) {
+        const bonus = Math.floor(Math.random() * 10) + 5;
+        repCount += bonus;
+        updateRepCounter();
+        alert("Событие! Бонусный +rep: " + bonus);
+      } else {
+        alert("Непредсказуемое событие... Но ничего не произошло.");
+      }
+    }
 
-    soundVolume.addEventListener('input', () => {
-      saveSettings();
-      // Можно добавить управление громкостью звуков игры
-      console.log('Звук установлен на', soundVolume.value);
-    });
+    function updateInventory() {
+      const invList = document.getElementById('inventoryList');
+      invList.innerHTML = '';
+      inventory.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        invList.appendChild(li);
+      });
+    }
+
+    function openRules() {
+      document.getElementById('rulesModal').style.display = 'block';
+    }
 
     function openSettings() {
-      closeModals();
       document.getElementById('settingsModal').style.display = 'block';
-      document.getElementById('overlay').style.display = 'block';
     }
 
     function closeModals() {
-      document.getElementById('settingsModal').style.display = 'none';
-      document.getElementById('gameMenuModal').style.display = 'none';
-      document.getElementById('overlay').style.display = 'none';
+      document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
     }
 
     function startGame() {
       closeModals();
       document.getElementById('menuScreen').style.display = 'none';
       document.getElementById('gameScreen').style.display = 'flex';
+      document.getElementById('upgradePanel').style.display = 'block';
+      document.getElementById('inventoryPanel').style.display = 'block';
     }
-
-    function goToMenu() {
-      closeModals();
-      document.getElementById('gameScreen').style.display = 'none';
-      document.getElementById('menuScreen').style.display = 'flex';
-    }
-
-    function openRules() {
-      alert('Правила игры будут здесь...');
-    }
-
-    function toggleGameMenu() {
-      const modal = document.getElementById('gameMenuModal');
-      const overlay = document.getElementById('overlay');
-      if (modal.style.display === 'block') {
-        modal.style.display = 'none';
-        overlay.style.display = 'none';
-      } else {
-        modal.style.display = 'block';
-        overlay.style.display = 'block';
-      }
-    }
-
-    let repCount = 0;
-
-    function gameButtonClick(event) {
-      repCount++;
-      updateRepCounter();
-
-      const button = event.currentTarget;
-      const rect = button.getBoundingClientRect();
-
-      const repText = document.createElement('div');
-      repText.textContent = '+rep';
-      repText.className = 'rep-fly';
-
-      repText.style.left = (rect.left + rect.width / 2 + (Math.random() * 40 - 20)) + 'px';
-      repText.style.top = (rect.top - 10) + 'px';
-
-      document.body.appendChild(repText);
-
-      repText.addEventListener('animationend', () => {
-        repText.remove();
-      });
-    }
-
-    function updateRepCounter() {
-      document.getElementById('repCounter').textContent = 'Rep: ' + repCount;
-    }
-
-    // Инициализация настроек при загрузке
-    window.addEventListener('load', () => {
-      loadSettings();
-    });
   </script>
 </body>
 </html>
