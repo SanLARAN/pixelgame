@@ -72,7 +72,7 @@
       transform: scale(1.07);
     }
 
-    #settingsModal {
+    #settingsModal, #gameMenuModal {
       display: none;
       position: fixed;
       top: 50%;
@@ -82,7 +82,7 @@
       color: #fff;
       border: 3px solid #fff;
       padding: 20px;
-      z-index: 10;
+      z-index: 20;
       font-size: 11px;
       border-radius: 10px;
       min-width: 260px;
@@ -106,7 +106,7 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.65);
-      z-index: 5;
+      z-index: 15;
     }
 
     /* Игровой экран - скрыт изначально */
@@ -118,10 +118,12 @@
       background: url('game-bg.png') no-repeat center center fixed;
       background-size: cover;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-end; /* Чтобы кнопка была снизу */
       align-items: center;
       animation: fadeIn 1s ease-in;
       overflow: hidden;
+      padding-bottom: 50px; /* отступ снизу для кнопки */
+      box-sizing: border-box;
     }
 
     #gameScreen button.game-btn {
@@ -135,6 +137,7 @@
       box-shadow: 0 0 12px #fff;
       transition: transform 0.2s, background-color 0.3s;
       user-select: none;
+      border-radius: 6px;
     }
 
     #gameScreen button.game-btn:hover {
@@ -142,47 +145,43 @@
       transform: scale(1.1);
     }
 
-    /* Кнопки слева сверху на игровом экране */
-    #gameScreen .top-left-buttons {
+    /* Кнопка гамбургер слева сверху */
+    #gameScreen .menu-button {
       position: absolute;
       top: 15px;
       left: 15px;
-      display: flex;
-      gap: 10px;
-      z-index: 20;
-    }
-
-    #gameScreen .top-left-buttons button {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 12px;
-      padding: 8px 12px;
+      width: 36px;
+      height: 36px;
       border: 2px solid #fff;
-      background-color: transparent;
+      border-radius: 6px;
+      background: transparent;
       color: #fff;
+      font-size: 24px;
+      line-height: 32px;
+      text-align: center;
       cursor: pointer;
-      box-shadow: 0 0 8px #fff;
       user-select: none;
+      box-shadow: 0 0 8px #fff;
       transition: background-color 0.3s;
+      z-index: 25;
     }
 
-    #gameScreen .top-left-buttons button:hover {
+    #gameScreen .menu-button:hover {
       background-color: rgba(255, 255, 255, 0.2);
     }
 
-    /* Счётчик реп */
+    /* Счётчик реп - простой зелёный текст без свечения */
     #repCounter {
       position: absolute;
       top: 15px;
       left: 50%;
       transform: translateX(-50%);
-      color: #4ade80; /* ярко зелёный */
+      color: #22c55e; /* зелёный */
       font-size: 16px;
       font-weight: bold;
-      text-shadow:
-        0 0 5px #4ade80,
-        0 0 10px #22c55e;
       user-select: none;
       z-index: 20;
+      text-shadow: none;
     }
 
     /* Анимация +rep */
@@ -209,10 +208,32 @@
         transform: translateY(-40px) scale(1.3);
       }
     }
+
+    /* Модальное меню гамбургера с выбором */
+    #gameMenuModal button {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 12px;
+      padding: 8px 12px;
+      border: 2px solid #fff;
+      background-color: transparent;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 8px #fff;
+      user-select: none;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    #gameMenuModal button:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
   </style>
 </head>
 <body>
-  <div id="overlay" onclick="closeSettings()"></div>
+  <div id="overlay" onclick="closeModals()"></div>
 
   <!-- Настройки -->
   <div id="settingsModal">
@@ -220,7 +241,14 @@
     <label>🎵 Музыка: <input type="checkbox" id="musicToggle" checked></label>
     <label>🎶 Громкость музыки: <input type="range" id="musicVolume" min="0" max="100" value="50"></label>
     <label>🔊 Громкость звуков: <input type="range" id="soundVolume" min="0" max="100" value="70"></label>
-    <button onclick="closeSettings()">Закрыть</button>
+    <button onclick="closeModals()">Закрыть</button>
+  </div>
+
+  <!-- Меню гамбургер -->
+  <div id="gameMenuModal">
+    <button onclick="goToMenu()">🏠 Главное меню</button>
+    <button onclick="openSettings()">⚙️ Настройки</button>
+    <button onclick="closeModals()">❌ Закрыть</button>
   </div>
 
   <!-- Главное меню -->
@@ -235,10 +263,7 @@
 
   <!-- Игровой экран -->
   <div id="gameScreen">
-    <div class="top-left-buttons">
-      <button onclick="goToMenu()">🏠 Главное меню</button>
-      <button onclick="openSettings()">⚙️ Настройки</button>
-    </div>
+    <div class="menu-button" title="Меню" onclick="toggleGameMenu()">☰</div>
     <div id="repCounter">Rep: 0</div>
     <button class="game-btn" onclick="gameButtonClick(event)">🕹️ Кликни меня</button>
   </div>
@@ -271,38 +296,49 @@
     });
 
     soundVolume.addEventListener('input', () => {
-      // Здесь будет управление громкостью звуков игры
-      // Пока просто логируем
+      // Управление громкостью звуков игры можно тут добавить
       console.log('Звук установлен на', soundVolume.value);
     });
 
-    // Открыть настройки
     function openSettings() {
+      closeModals();
       document.getElementById('settingsModal').style.display = 'block';
       document.getElementById('overlay').style.display = 'block';
     }
 
-    // Закрыть настройки
-    function closeSettings() {
+    function closeModals() {
       document.getElementById('settingsModal').style.display = 'none';
+      document.getElementById('gameMenuModal').style.display = 'none';
       document.getElementById('overlay').style.display = 'none';
     }
 
-    // Начать игру (показать экран игры)
     function startGame() {
+      closeModals();
       document.getElementById('menuScreen').style.display = 'none';
       document.getElementById('gameScreen').style.display = 'flex';
     }
 
-    // Вернуться в меню
     function goToMenu() {
+      closeModals();
       document.getElementById('gameScreen').style.display = 'none';
       document.getElementById('menuScreen').style.display = 'flex';
     }
 
-    // Правила (просто алерт пока)
     function openRules() {
       alert('Правила игры будут здесь...');
+    }
+
+    // Модальное меню гамбургер
+    function toggleGameMenu() {
+      const modal = document.getElementById('gameMenuModal');
+      const overlay = document.getElementById('overlay');
+      if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+      } else {
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
+      }
     }
 
     // Реп и анимация
@@ -325,12 +361,11 @@
 
       document.body.appendChild(repText);
 
-      // Удаляем элемент после анимации (1с)
       repText.addEventListener('animationend', () => {
         repText.remove();
       });
 
-      // Здесь можно добавить звук клика, если нужно
+      // Звуки клика можно добавить тут, с учетом громкости soundVolume.value
     }
 
     function updateRepCounter() {
