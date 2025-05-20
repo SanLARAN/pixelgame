@@ -12,7 +12,6 @@
       padding: 0;
       font-family: 'Press Start 2P', cursive;
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%),
         url('background.png') no-repeat center center fixed;
       background-size: cover;
       height: 100vh;
@@ -48,23 +47,6 @@
       filter: none;
       position: relative;
       z-index: 5;
-    }
-
-    /* Небольшое затемнение под логотипом */
-    .logo-container {
-      position: relative;
-      width: 180px;
-      margin-bottom: 10px;
-    }
-    .logo-shadow {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 30px;
-      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-      border-radius: 8px;
-      z-index: 1;
     }
 
     @keyframes slideInDown {
@@ -318,10 +300,7 @@
 
   <!-- Главное меню -->
   <div class="container" id="menuScreen">
-    <div class="logo-container">
-      <img src="logo.png" alt="Логотип" class="logo" draggable="false" />
-      <div class="logo-shadow"></div>
-    </div>
+    <img src="logo.png" alt="Логотип" class="logo" draggable="false" />
     <div class="menu">
       <button onclick="startGame()">🎮 Начать</button>
       <button onclick="openRules()">📜 Правила</button>
@@ -345,6 +324,8 @@
     <div id="repFlyContainer" style="position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); pointer-events:none;"></div>
   </div>
 
+  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+
 <script>
   let rep = 0;
   let isShift = true; // true - работа, false - перекур
@@ -356,106 +337,173 @@
 
   const repCounter = document.getElementById('repCounter');
   const shiftState = document.getElementById('shiftState');
-  const shiftTimer = document.getElementById('shiftTimer');
-  const workButton = document.getElementById('workButton');
-  const repFlyContainer = document.getElementById('repFlyContainer');
+// Получаем элементы по id
+const shiftState = document.getElementById('shiftState');
+const shiftTimer = document.getElementById('shiftTimer');
+const workButton = document.getElementById('workButton');
+const repFlyContainer = document.getElementById('repFlyContainer');
+const overlay = document.getElementById('overlay');
+const settingsModal = document.getElementById('settingsModal');
+const gameMenuModal = document.getElementById('gameMenuModal');
+const bgMusic = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+const musicVolume = document.getElementById('musicVolume');
+const soundVolume = document.getElementById('soundVolume');
+const repCounter = document.getElementById('repCounter');  // Элемент для отображения репутации
 
-  function startGame() {
-    document.getElementById('menuScreen').style.display = 'none';
-    document.getElementById('gameScreen').style.display = 'flex';
-    startShift();
+// Переменные игры
+let rep = 0;
+let isShift = true; // true — смена, false — перекур
+const shiftDuration = 30; // длительность смены в секундах
+const breakDuration = 30; // длительность перекура в секундах
+let shiftTimeLeft = shiftDuration;
+let breakTimeLeft = breakDuration;
+let shiftTimerId = null;
+
+// Инициализация при загрузке страницы
+window.onload = () => {
+  bgMusic.volume = 0.5;
+  if (musicToggle.checked) {
+    bgMusic.play().catch(() => {
+      // автозапуск может быть заблокирован браузером
+    });
   }
+  updateRep();
+  updateShiftState();
+  startShiftTimer();
+};
 
-  function startShift() {
-    isShift = true;
-    shiftTimeLeft = shiftDuration;
+// Функции управления интерфейсом
+function startGame() {
+  document.getElementById('menuScreen').style.display = 'none';
+  document.getElementById('gameScreen').style.display = 'flex';
+}
+
+function openRules() {
+  alert(
+    "Правила игры:\n\n" +
+    "- Нажимайте кнопку РАБОТАТЬ, чтобы зарабатывать репутацию.\n" +
+    "- После 30 секунд работы — перекур на 30 секунд.\n" +
+    "- Перекур: кнопка РАБОТАТЬ отключена.\n" +
+    "- Управляйте музыкой и звуками в настройках."
+  );
+}
+
+function openSettings() {
+  overlay.style.display = 'block';
+  settingsModal.style.display = 'block';
+}
+
+function openGameMenu() {
+  overlay.style.display = 'block';
+  gameMenuModal.style.display = 'block';
+}
+
+function closeModals() {
+  overlay.style.display = 'none';
+  settingsModal.style.display = 'none';
+  gameMenuModal.style.display = 'none';
+}
+
+function goToMenu() {
+  closeModals();
+  document.getElementById('gameScreen').style.display = 'none';
+  document.getElementById('menuScreen').style.display = 'flex';
+}
+
+// Обновление отображения репутации
+function updateRep() {
+  repCounter.textContent = `Реп: ${rep}`;
+}
+
+// Обновление состояния смены/перекура
+function updateShiftState() {
+  if (isShift) {
     shiftState.textContent = 'Смена';
-    shiftTimer.textContent = `${shiftTimeLeft} сек`;
     workButton.disabled = false;
-    clearInterval(shiftTimerId);
-    shiftTimerId = setInterval(() => {
+  } else {
+    shiftState.textContent = 'Перекур';
+    workButton.disabled = true;
+  }
+}
+
+// Запуск таймера смены и перекура
+function startShiftTimer() {
+  if (shiftTimerId) clearInterval(shiftTimerId);
+  shiftTimeLeft = shiftDuration;
+  breakTimeLeft = breakDuration;
+  shiftTimer.textContent = `${shiftTimeLeft} сек`;
+
+  shiftTimerId = setInterval(() => {
+    if (isShift) {
       shiftTimeLeft--;
       shiftTimer.textContent = `${shiftTimeLeft} сек`;
       if (shiftTimeLeft <= 0) {
-        clearInterval(shiftTimerId);
-        startBreak();
+        isShift = false;
+        updateShiftState();
+        shiftTimer.textContent = `${breakTimeLeft} сек`;
       }
-    }, 1000);
-  }
-
-  function startBreak() {
-    isShift = false;
-    breakTimeLeft = breakDuration;
-    shiftState.textContent = 'Перекур';
-    shiftTimer.textContent = `${breakTimeLeft} сек`;
-    workButton.disabled = true;
-    clearInterval(shiftTimerId);
-    shiftTimerId = setInterval(() => {
+    } else {
       breakTimeLeft--;
       shiftTimer.textContent = `${breakTimeLeft} сек`;
       if (breakTimeLeft <= 0) {
-        clearInterval(shiftTimerId);
-        startShift();
+        isShift = true;
+        updateShiftState();
+        shiftTimeLeft = shiftDuration;
+        shiftTimer.textContent = `${shiftTimeLeft} сек`;
       }
-    }, 1000);
+    }
+  }, 1000);
+}
+
+// Обработка нажатия кнопки РАБОТАТЬ
+function workClick() {
+  if (!isShift) return;
+
+  rep++;
+  updateRep();
+  showRepFly();
+  playSoundClick();
+}
+
+// Анимация "+1 реп"
+function showRepFly() {
+  const fly = document.createElement('div');
+  fly.className = 'rep-fly';
+  fly.textContent = '+1 реп';
+  repFlyContainer.appendChild(fly);
+
+  // Позиционирование случайное по горизонтали ±40px
+  fly.style.left = (50 + (Math.random() * 80 - 40)) + '%';
+
+  // Удалить элемент после анимации (1 секунда)
+  setTimeout(() => {
+    fly.remove();
+  }, 1000);
+}
+
+// Воспроизведение звука клика (заглушка)
+function playSoundClick() {
+  if (soundVolume.value == 0) return;
+  // Здесь можно добавить воспроизведение звука клика, если он есть
+}
+
+// Управление музыкой через чекбокс
+musicToggle.addEventListener('change', () => {
+  if (musicToggle.checked) {
+    bgMusic.play();
+  } else {
+    bgMusic.pause();
   }
+});
 
-  function workClick() {
-    if (!isShift) return; // блокируем клики во время перекура
-    rep++;
-    updateRep();
-    showRepFly();
-  }
+// Регулировка громкости музыки
+musicVolume.addEventListener('input', () => {
+  const vol = musicVolume.value / 100;
+  bgMusic.volume = vol;
+});
 
-  function updateRep() {
-    repCounter.textContent = `Реп: ${rep}`;
-  }
-
-  function showRepFly() {
-    const fly = document.createElement('div');
-    fly.classList.add('rep-fly');
-    fly.textContent = '+1 реп';
-    repFlyContainer.appendChild(fly);
-
-    // Позиционируем случайно чуть влево/вправо
-    fly.style.left = (Math.random() * 80 + 10) + '%';
-
-    setTimeout(() => {
-      fly.remove();
-    }, 1000);
-  }
-
-  // Меню гамбургер
-  function openGameMenu() {
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('gameMenuModal').style.display = 'block';
-  }
-
-  function closeModals() {
-    document.getElementById('overlay').style.display = 'none';
-    document.getElementById('gameMenuModal').style.display = 'none';
-    document.getElementById('settingsModal').style.display = 'none';
-  }
-
-  function openSettings() {
-    closeModals();
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('settingsModal').style.display = 'block';
-  }
-
-  function goToMenu() {
-    clearInterval(shiftTimerId);
-    document.getElementById('gameScreen').style.display = 'none';
-    document.getElementById('menuScreen').style.display = 'flex';
-    closeModals();
-    rep = 0;
-    updateRep();
-  }
-
-  function openRules() {
-    alert('Правила игры: кликайте на кнопку "РАБОТАТЬ" во время смены, чтобы заработать репутацию (rep). После смены идет перекур 30 секунд, во время которого работать нельзя. Покупайте улучшения за реп, чтобы прокачиваться. Удачи!');
-  }
-</script>
-</body>
-</html>
-
+// Регулировка громкости звуков (пока заглушка)
+soundVolume.addEventListener('input', () => {
+  // Можно добавить изменение громкости звуков здесь
+});
