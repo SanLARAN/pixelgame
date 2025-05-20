@@ -38,6 +38,12 @@
       max-width: 400px;
       padding: 0 15px;
       box-sizing: border-box;
+      position: relative;
+    }
+
+    .logo-wrapper {
+      position: relative;
+      width: 180px;
     }
 
     .logo {
@@ -46,6 +52,24 @@
       animation: slideInDown 1.2s ease-out;
       user-select: none;
       filter: none;
+      position: relative;
+      z-index: 2;
+      display: block;
+    }
+
+    /* Затемнение под логотипом */
+    .logo-wrapper::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0));
+      z-index: 1;
+      pointer-events: none;
+      border-radius: 0 0 8px 8px;
+      animation: fadeIn 1.2s ease-out;
     }
 
     @keyframes slideInDown {
@@ -142,6 +166,8 @@
       transition: transform 0.2s, background-color 0.3s;
       user-select: none;
       border-radius: 4px;
+      margin-bottom: 15px; /* кнопка смещена вниз */
+      align-self: center;
     }
 
     #gameScreen button.game-btn:hover {
@@ -233,6 +259,18 @@
       background-color: rgba(255, 255, 255, 0.2);
       box-shadow: none;
     }
+
+    /* Версия внизу слева главного меню */
+    #versionLabel {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 9px;
+      color: #aaa;
+      user-select: none;
+      opacity: 0.7;
+      font-family: 'Press Start 2P', cursive;
+    }
   </style>
 </head>
 <body>
@@ -256,12 +294,15 @@
 
   <!-- Главное меню -->
   <div class="container" id="menuScreen">
-    <img src="logo.png" alt="Логотип" class="logo" draggable="false" />
+    <div class="logo-wrapper">
+      <img src="logo.png" alt="Логотип" class="logo" draggable="false" />
+    </div>
     <div class="menu">
       <button onclick="startGame()">🎮 Начать</button>
       <button onclick="openRules()">📜 Правила</button>
       <button onclick="openSettings()">⚙️ Настройки</button>
     </div>
+    <div id="versionLabel">v1.0.3</div>
   </div>
 
   <!-- Игровой экран -->
@@ -280,11 +321,38 @@
     tg.expand();
 
     const musicAudio = document.getElementById('bgMusic');
-    musicAudio.volume = 0.5;
-
     const musicToggle = document.getElementById('musicToggle');
     const musicVolume = document.getElementById('musicVolume');
     const soundVolume = document.getElementById('soundVolume');
+
+    // Загрузка сохранённых настроек из localStorage
+    function loadSettings() {
+      const musicOn = localStorage.getItem('musicToggle');
+      const musicVol = localStorage.getItem('musicVolume');
+      const soundVol = localStorage.getItem('soundVolume');
+
+      if (musicOn !== null) {
+        musicToggle.checked = musicOn === 'true';
+        if (musicToggle.checked) musicAudio.play();
+        else musicAudio.pause();
+      }
+
+      if (musicVol !== null) {
+        musicVolume.value = musicVol;
+        musicAudio.volume = musicVol / 100;
+      }
+
+      if (soundVol !== null) {
+        soundVolume.value = soundVol;
+      }
+    }
+
+    // Сохранение настроек
+    function saveSettings() {
+      localStorage.setItem('musicToggle', musicToggle.checked);
+      localStorage.setItem('musicVolume', musicVolume.value);
+      localStorage.setItem('soundVolume', soundVolume.value);
+    }
 
     musicToggle.addEventListener('change', () => {
       if (musicToggle.checked) {
@@ -292,15 +360,18 @@
       } else {
         musicAudio.pause();
       }
+      saveSettings();
     });
 
     musicVolume.addEventListener('input', () => {
       musicAudio.volume = musicVolume.value / 100;
+      saveSettings();
     });
 
     soundVolume.addEventListener('input', () => {
       // Можно добавить управление громкостью звуков игры
-      console.log('Звук установлен на', soundVolume.value);
+      saveSettings();
+      //console.log('Звук установлен на', soundVolume.value);
     });
 
     function openSettings() {
@@ -369,6 +440,9 @@
     function updateRepCounter() {
       document.getElementById('repCounter').textContent = 'Rep: ' + repCount;
     }
+
+    // При загрузке страницы применяем сохранённые настройки
+    window.addEventListener('load', loadSettings);
   </script>
 </body>
 </html>
