@@ -19,7 +19,7 @@
       background: url('your-background-file.jpg') no-repeat center center;
       background-size: cover;
     }
-    /* "Окошко" приложения (Главное меню) */
+    /* "Окошко" главного меню */
     .container {
       width: 90%;
       max-width: 400px;
@@ -46,18 +46,18 @@
       font-size: 16px;
       margin: 0;
     }
-    /* Основной контент окна */
+    /* Основной контент главного меню */
     .content {
       padding: 10px;
     }
-    /* Секции меню – отображается только активная */
+    /* Секции главного меню – показывается только активная */
     .menu, .settings, .rules {
       display: none;
     }
     .menu.active, .settings.active, .rules.active {
       display: block;
     }
-    /* Кнопки в стиле Windows XP для главного меню */
+    /* Кнопки в главном меню */
     .xp-btn, .xp-back-btn {
       display: block;
       width: 100%;
@@ -171,18 +171,9 @@
       animation: bgAnimation 3s ease-in-out forwards;
     }
     @keyframes bgAnimation {
-      0% {
-        filter: brightness(50%) blur(5px);
-        transform: scale(1.1);
-      }
-      50% {
-        filter: brightness(120%) blur(0px);
-        transform: scale(1);
-      }
-      100% {
-        filter: brightness(100%) blur(0px);
-        transform: scale(1);
-      }
+      0% { filter: brightness(50%) blur(5px); transform: scale(1.1); }
+      50% { filter: brightness(120%) blur(0px); transform: scale(1); }
+      100% { filter: brightness(100%) blur(0px); transform: scale(1); }
     }
     /* Интерфейс игрового экрана */
     #game .game-ui {
@@ -194,15 +185,19 @@
       align-items: center;
       justify-content: center;
     }
-    /* Счётчик заработанных рублей – по центру сверху */
+    /* Улучшенный счётчик рублей: увеличенный размер, фон, округленные углы и тень */
     .counter {
       position: absolute;
       top: 10px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 20px;
+      font-size: 24px;
+      font-weight: bold;
       color: #fff;
-      text-shadow: 1px 1px 0 #000;
+      background: linear-gradient(to right, #004d00, #00cc00);
+      padding: 5px 10px;
+      border-radius: 8px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     }
     /* Таймер смены/перекура – в левом верхнем углу */
     .shift-timer {
@@ -211,7 +206,7 @@
       left: 10px;
       font-size: 16px;
       color: #fff;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.6);
       padding: 5px 10px;
       border-radius: 5px;
       z-index: 1001;
@@ -223,7 +218,7 @@
       right: 10px;
       font-size: 16px;
       color: #fff;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.6);
       padding: 5px 10px;
       border-radius: 5px;
       z-index: 1001;
@@ -240,12 +235,8 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
-    .game-btn:hover {
-      transform: scale(1.05);
-    }
-    .game-btn:active {
-      transform: scale(0.95);
-    }
+    .game-btn:hover { transform: scale(1.05); }
+    .game-btn:active { transform: scale(0.95); }
     /* Всплывающая анимация "+₽" */
     .money-popup {
       position: absolute;
@@ -258,14 +249,8 @@
       pointer-events: none;
     }
     @keyframes flyUp {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, 0);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -30px);
-      }
+      0% { opacity: 1; transform: translate(-50%, 0); }
+      100% { opacity: 0; transform: translate(-50%, -30px); }
     }
     /* Меню Пуск (режим паузы) */
     .pause-menu {
@@ -274,7 +259,7 @@
       left: 5px;
       background: #f0f0f0;
       border: 1px solid #808080;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
       z-index: 1100;
       width: 150px;
       padding: 10px;
@@ -290,9 +275,7 @@
       text-transform: uppercase;
       font-size: 12px;
     }
-    .pause-btn:hover {
-      background: linear-gradient(to bottom, #d4d0c8, #ffffff);
-    }
+    .pause-btn:hover { background: linear-gradient(to bottom, #d4d0c8, #ffffff); }
     /* Оверлей для паузы: затемнение экрана, блокировка кликов и мигающая надпись "ПАУЗА" */
     .pause-overlay {
       position: fixed;
@@ -300,7 +283,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       z-index: 1050;
       display: none;
       pointer-events: all;
@@ -352,8 +335,13 @@
   </style>
 </head>
 <body>
-  <!-- Аудио звонка для перекура -->
+  <!-- Аудио элементов -->
+  <!-- Звук звонка для перекура -->
   <audio id="breakBell" src="your-bell-sound.mp3" preload="auto"></audio>
+  <!-- Фоновая музыка (будет играть, если музыка включена) -->
+  <audio id="bgMusic" src="your-background-music.mp3" loop preload="auto"></audio>
+  <!-- Звук нажатия кнопок -->
+  <audio id="buttonClickSound" src="your-button-click-sound.mp3" preload="auto"></audio>
   
   <!-- Главное меню -->
   <div class="container">
@@ -363,9 +351,9 @@
     </div>
     <div class="content">
       <div id="menu" class="menu active">
-        <button class="xp-btn" onclick="startGame()">Играть</button>
-        <button class="xp-btn" onclick="showSettings()">Настройки</button>
-        <button class="xp-btn" onclick="showRules()">Правила</button>
+        <button class="xp-btn" onclick="playButtonClick(); startGame()">Играть</button>
+        <button class="xp-btn" onclick="playButtonClick(); showSettings()">Настройки</button>
+        <button class="xp-btn" onclick="playButtonClick(); showRules()">Правила</button>
       </div>
       <div id="settings" class="settings">
         <h2 style="font-size:14px; margin-bottom:10px;">Настройки</h2>
@@ -381,14 +369,14 @@
           <label for="soundVolume">Громкость звуков:</label>
           <input type="range" id="soundVolume" min="0" max="100" value="50">
         </div>
-        <button class="xp-back-btn" onclick="backToMenu()">Назад</button>
+        <button class="xp-back-btn" onclick="playButtonClick(); backToMenu()">Назад</button>
       </div>
       <div id="rules" class="rules">
         <h2 style="font-size:14px; margin-bottom:10px;">Правила игры</h2>
         <p style="font-size:12px;">
           Здесь разместите правила вашей игры. Опишите последовательность действий, цели и особенности игры.
         </p>
-        <button class="xp-back-btn" onclick="backToMenu()">Назад</button>
+        <button class="xp-back-btn" onclick="playButtonClick(); backToMenu()">Назад</button>
       </div>
       <div class="version">v1.0.0</div>
     </div>
@@ -427,9 +415,9 @@
   
   <!-- Меню Пуск (режим паузы) -->
   <div id="pauseMenu" class="pause-menu">
-    <button class="pause-btn" onclick="resumeGame()">Продолжить</button>
-    <button class="pause-btn" onclick="openPauseSettings()">Настройки</button>
-    <button class="pause-btn" onclick="exitGame()">Выйти</button>
+    <button class="pause-btn" onclick="playButtonClick(); resumeGame()">Продолжить</button>
+    <button class="pause-btn" onclick="playButtonClick(); openPauseSettings()">Настройки</button>
+    <button class="pause-btn" onclick="playButtonClick(); exitGame()">Выйти</button>
   </div>
   
   <!-- Окно предупреждения для перекура -->
@@ -439,6 +427,7 @@
   </div>
   
   <script>
+    // Глобальные переменные
     let rublesCount = 0;
     let gameActive = false;
     let gamePaused = false;
@@ -449,7 +438,18 @@
     let inBreak = false;
     let shiftCount = 0;
     
-    // Форматирование времени в формате mm:ss
+    // Глобальная переменная для громкости звуков (от 0 до 1)
+    let soundVolume = 0.5;
+    
+    // Функция воспроизведения звука нажатия кнопки (главное меню и пауза)
+    function playButtonClick() {
+      const sound = document.getElementById("buttonClickSound");
+      sound.volume = soundVolume;
+      sound.currentTime = 0;
+      sound.play();
+    }
+    
+    // Функция форматирования времени в формате mm:ss
     function formatTime(seconds) {
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
@@ -509,14 +509,11 @@
       remainingTime = breakDuration;
       document.getElementById("workButton").disabled = true;
       updateShiftTimerDisplay();
-      // Проигрываем звонок
       document.getElementById("breakBell").play();
-      // Показываем окно предупреждения перекура с анимацией
       const alertElem = document.getElementById("breakAlert");
       alertElem.style.display = "block";
       alertElem.style.animation = "alertFadeIn 0.5s forwards";
       setTimeout(() => { alertElem.style.display = "none"; }, 3000);
-      // Запускаем таймер перекура
       shiftInterval = setInterval(() => {
         remainingTime--;
         updateShiftTimerDisplay();
@@ -541,12 +538,15 @@
       let startBtn = document.getElementById("taskbarStartBtn");
       startBtn.classList.add("stop");
       startBtn.textContent = "Стоп";
+      // При запуске игры, если музыка включена, запускаем фоновую музыку
+      if (document.getElementById("musicToggle").checked) {
+        document.getElementById("bgMusic").play();
+      }
       startWorkPhase();
     }
     
     // При нажатии на кнопку "Стоп" (на панели задач) игра ставится на паузу:
-    // - останавливаем таймер,
-    // - показываем затемняющий оверлей и меню паузы, блокируя клики по рабочим элементам.
+    // останавливаем таймер, показываем затемняющий оверлей и меню Паузы.
     function stopGame() {
       if (gameActive && !gamePaused) {
         clearInterval(shiftInterval);
@@ -568,10 +568,10 @@
     function openPauseSettings() {
       document.getElementById("pauseOverlay").style.display = "none";
       document.getElementById("pauseMenu").style.display = "none";
-      exitGame(true); // true = открыть настройки
+      exitGame(true);
     }
     
-    // Функция "Выйти": если параметр openSettings не передан, выводим подтверждение; при подтверждении завершаем игру.
+    // Функция "Выйти": если openSettings не передан, запрашиваем подтверждение; иначе выходим и открываем настройки.
     function exitGame(openSettings) {
       if (!openSettings && !confirm("Вы действительно хотите выйти?")) {
         return;
@@ -589,6 +589,8 @@
       let startBtn = document.getElementById("taskbarStartBtn");
       startBtn.classList.remove("stop");
       startBtn.textContent = "Пуск";
+      // Останавливаем фоновую музыку
+      document.getElementById("bgMusic").pause();
     }
     
     // Кнопка "работать": увеличивает счётчик рублей и запускает всплывающую анимацию "+₽"
@@ -624,6 +626,23 @@
       if (gameActive && !gamePaused) {
         stopGame();
       }
+    });
+    
+    // Обработчики для настроек
+    document.getElementById("musicToggle").addEventListener("change", function() {
+      const bgMusic = document.getElementById("bgMusic");
+      if (this.checked) {
+        bgMusic.volume = document.getElementById("musicVolume").value / 100;
+        bgMusic.play();
+      } else {
+        bgMusic.pause();
+      }
+    });
+    document.getElementById("musicVolume").addEventListener("input", function() {
+      document.getElementById("bgMusic").volume = this.value / 100;
+    });
+    document.getElementById("soundVolume").addEventListener("input", function() {
+      soundVolume = this.value / 100;
     });
   </script>
 </body>
