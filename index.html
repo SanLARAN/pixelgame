@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Телеграм игра - Windows XP стиль</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Подключаем шрифт Tahoma - популярный для Windows XP -->
+  <!-- Подключаем шрифт Tahoma – характерный для Windows XP -->
   <link href="https://fonts.googleapis.com/css?family=Tahoma:400,700&display=swap" rel="stylesheet">
   <style>
     /* Гарантируем, что html и body занимают всю высоту окна */
@@ -30,7 +30,7 @@
       box-shadow: 4px 4px 0px #808080;
     }
     
-    /* Заголовок окна с синим градиентом */
+    /* Заголовок окна с синим градиентом Windows XP */
     .xp-header {
       background: linear-gradient(to right, #0a246a, #2a5dab);
       color: #fff;
@@ -78,7 +78,7 @@
       box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
     }
     
-    /* Стили для переключателей и ползунков в Настройках */
+    /* Стили для переключателей и ползунков в настройках */
     .toggle, .slider-container {
       margin: 10px 0;
     }
@@ -133,6 +133,7 @@
       align-items: center;
       z-index: 1000;
     }
+    /* Блок с кнопкой Пуск */
     .taskbar .start-section {
       margin-left: 5px;
     }
@@ -140,7 +141,9 @@
       width: 32px;
       height: 32px;
       image-rendering: pixelated;
+      cursor: pointer;
     }
+    /* Блок со ссылками на TG канал, Discord и TG аккаунт */
     .taskbar .links-section {
       margin-left: 10px;
       display: flex;
@@ -157,7 +160,7 @@
       text-decoration: none;
     }
     
-    /* Игровой экран – растянутый на всё окно с анимацией фона */
+    /* Игровой экран – растянутый на весь экран с анимацией фона */
     #game {
       position: fixed;
       top: 0;
@@ -168,7 +171,7 @@
       background-size: cover;
       display: none;
       z-index: 900;
-      /* Анимация: фон стартует мутным и с затемнением, а затем становится ярким и резким */
+      /* Анимация: фон стартует мутным с затемнением, а затем становится ярким */
       animation: bgAnimation 3s ease-in-out forwards;
     }
     @keyframes bgAnimation {
@@ -274,7 +277,8 @@
   <!-- Панель задач в стиле Windows XP -->
   <div class="taskbar">
     <div class="start-section">
-      <img src="your-start-button.png" alt="Пуск" class="start-button-img">
+      <!-- При старте используем зелёную кнопку Start, которая затем переключится на красную Stop -->
+      <img id="taskbarStartBtn" src="your-green-start-button.png" alt="Пуск" class="start-button-img">
     </div>
     <div class="links-section">
       <a href="https://t.me/bubilny" target="_blank">TG канал</a>  
@@ -285,25 +289,37 @@
   
   <script>
     let rublesCount = 0;
+    let gameActive = false;
     
-    // При нажатии на кнопку "Играть" скрываем главное окно и показываем игровой экран.
+    // При нажатии на кнопку "Играть" запускаем игру, обновляем фон, анимацию и иконку
     function startGame() {
       document.querySelector(".container").style.display = "none";
-      let gameScreen = document.getElementById("game");
+      const gameScreen = document.getElementById("game");
       gameScreen.style.display = "block";
-      // Для повторного запуска анимации можно опционально удалить и добавить класс.
       gameScreen.style.animation = 'none';
-      gameScreen.offsetHeight; // перезагрузка анимации
+      gameScreen.offsetHeight; // Перезапускаем анимацию
       gameScreen.style.animation = null;
+      gameActive = true;
+      // Меняем иконку в панели задач на красную (Stop)
+      document.getElementById("taskbarStartBtn").src = "your-red-stop-button.png";
     }
     
-    // Функция для кнопки "работать" — увеличивает счётчик заработка.
+    // При нажатии на кнопку в панели задач, если игра активна – останавливаем её
+    function stopGame() {
+      document.querySelector(".container").style.display = "block";
+      document.getElementById("game").style.display = "none";
+      gameActive = false;
+      // Возвращаем зелёную иконку Start
+      document.getElementById("taskbarStartBtn").src = "your-green-start-button.png";
+    }
+    
+    // Функция для кнопки "работать" – увеличивает счётчик заработка
     function work() {
       rublesCount++;
       document.getElementById("counter").textContent = "Рубли: " + rublesCount;
     }
     
-    // Функции для переключения между секциями главного меню.
+    // Переключение между разделами главного меню
     function showSettings() {
       document.getElementById("menu").classList.remove("active");
       document.getElementById("settings").classList.add("active");
@@ -317,6 +333,14 @@
       document.getElementById("rules").classList.remove("active");
       document.getElementById("menu").classList.add("active");
     }
+    
+    // Добавляем обработчик клика на кнопке Пуск/Стоп
+    document.getElementById("taskbarStartBtn").addEventListener("click", function() {
+      if (gameActive) {
+        stopGame();
+      }
+      // Если игра не активна, оставляем кнопку только для отображения состояния (или можно реализовать вызов меню)
+    });
   </script>
 </body>
 </html>
