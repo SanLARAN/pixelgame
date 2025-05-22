@@ -1,509 +1,197 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pixel Menu & Game</title>
+  <meta charset="UTF-8">
+  <title>Телеграм игра - Мини-приложение</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Подключаем пиксельный шрифт -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
+    /* Базовые стили для фона и шрифта */
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Press Start 2P', cursive;
-      background:
-        url('background.png') no-repeat center center fixed;
-      background-size: cover;
+      font-family: 'Press Start 2P', monospace;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      animation: fadeIn 1.5s ease-in;
-      overflow: hidden;
-      color: #fff;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 25px;
-      width: 100%;
-      max-width: 400px;
-      padding: 0 15px;
-      box-sizing: border-box;
-    }
-
-    .logo {
-      width: 180px;
-      height: auto;
-      animation: slideInDown 1.2s ease-out;
-      user-select: none;
-      filter: none;
-      position: relative;
-      z-index: 5;
-    }
-
-    @keyframes slideInDown {
-      from {transform: translateY(-60px); opacity: 0;}
-      to {transform: translateY(0); opacity: 1;}
-    }
-
-    /* Меню кнопки - прозрачные, без плашки */
-    .menu button {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 14px;
-      padding: 15px;
-      background-color: transparent;
-      color: #fff;
-      border: 2px solid #fff;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.15s;
-      width: 100%;
-      max-width: 350px;
-      user-select: none;
-      box-shadow: none; /* убрал свечение */
-    }
-
-    .menu button:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-      transform: scale(1.05);
-      box-shadow: none; /* убрал свечение */
-    }
-
-    #settingsModal, #gameMenuModal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #111;
-      color: #fff;
-      border: 2px solid #fff;
-      padding: 20px;
-      z-index: 20;
-      font-size: 11px;
-      border-radius: 6px;
-      min-width: 260px;
-      box-shadow: none; /* убрал свечение */
-      user-select: none;
-    }
-
-    #settingsModal label {
-      display: block;
-      margin: 12px 0 6px 0;
-    }
-
-    #settingsModal input[type=range] {
-      width: 100%;
-      cursor: pointer;
-    }
-
-    #overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.65);
-      z-index: 15;
-    }
-
-    /* Игровой экран - скрыт изначально */
-    #gameScreen {
-      display: none;
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      background: url('game-bg.png') no-repeat center center fixed;
+      /* Фон можно заменить своим файлом */
+      background: url('your-background-file.jpg') no-repeat center center;
       background-size: cover;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      animation: fadeIn 1s ease-in;
-      overflow: hidden;
-      padding-bottom: 50px;
-      box-sizing: border-box;
-      color: #fff;
+      image-rendering: pixelated;
     }
-
-    #gameScreen button.game-btn {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 16px;
-      padding: 15px 25px;
-      border: 2px solid #fff;
-      background: transparent;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: none;
-      transition: transform 0.2s, background-color 0.3s;
-      user-select: none;
-      border-radius: 4px;
+    
+    /* Основной контейнер приложения */
+    .container {
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 4px solid #000;
+      /* Убираем скругление, чтобы сохранить пиксельную эстетику */
+      padding: 10px;
+      box-shadow: 4px 4px 0px #000;
+      position: relative;
     }
-
-    #gameScreen button.game-btn:hover:enabled {
-      background-color: rgba(255, 255, 255, 0.15);
-      transform: scale(1.07);
-      box-shadow: none;
+    
+    /* Логотип игры */
+    .logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      width: 150px;
+      image-rendering: pixelated;
     }
-    #gameScreen button.game-btn:disabled {
-      cursor: default;
-      opacity: 0.5;
+    
+    /* Секции меню, настроек, правил */
+    .menu, .settings, .rules {
+      display: none;
     }
-
-    /* Кнопка гамбургер слева сверху */
-    #gameScreen .menu-button {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      width: 36px;
-      height: 36px;
-      border: 2px solid #fff;
-      border-radius: 4px;
-      background: transparent;
-      color: #fff;
-      font-size: 24px;
-      line-height: 32px;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: none;
-      transition: background-color 0.3s;
-      z-index: 25;
+    .menu.active, .settings.active, .rules.active {
+      display: block;
     }
-
-    #gameScreen .menu-button:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Счётчик реп - простой зелёный текст без свечения */
-    #repCounter {
-      position: absolute;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #22c55e;
-      font-size: 16px;
-      font-weight: bold;
-      user-select: none;
-      z-index: 20;
-      text-shadow: none;
-    }
-
-    /* Состояние смены/перекура */
-    #shiftState {
-      position: absolute;
-      top: 45px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #fff;
-      font-size: 14px;
-      font-weight: bold;
-      text-shadow: 0 0 4px #000;
-      user-select: none;
-      z-index: 20;
-    }
-
-    /* Таймер смены */
-    #shiftTimer {
-      position: absolute;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #fff;
-      font-size: 14px;
-      font-weight: normal;
-      text-shadow: 0 0 4px #000;
-      user-select: none;
-      z-index: 20;
-    }
-
-    /* Анимация +rep */
-    .rep-fly {
-      position: absolute;
-      color: #22c55e;
-      font-weight: bold;
-      font-size: 14px;
-      user-select: none;
-      pointer-events: none;
-      animation: repUpFade 1s forwards;
-      text-shadow: none; /* убрал свечения */
-      z-index: 30;
-    }
-
-    @keyframes repUpFade {
-      0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-40px) scale(1.3);
-      }
-    }
-
-    /* Модальное меню гамбургера с выбором */
-    #gameMenuModal button {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 12px;
-      padding: 8px 12px;
-      border: 2px solid #fff;
-      background-color: transparent;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: none;
-      user-select: none;
-      transition: background-color 0.3s;
-      margin-top: 10px;
+    
+    /* Стили для кнопок в пиксельном стиле */
+    .btn, .back-btn {
+      display: block;
       width: 100%;
-      border-radius: 4px;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0px #000;
+      cursor: pointer;
+      font-size: 12px;
+      margin: 10px 0;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      text-transform: uppercase;
+      outline: none;
     }
-
-    #gameMenuModal button:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-      box-shadow: none;
+    .back-btn {
+      background-color: #6c757d;
     }
-
-    /* Версия в главном меню */
-    #version {
-      position: fixed;
-      bottom: 8px;
-      left: 8px;
+    
+    /* Стили для переключателя музыки */
+    .toggle {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .toggle input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.5);
+    }
+    
+    /* Стили для ползунков громкости */
+    .slider-container {
+      margin: 10px 0;
+    }
+    .slider-container label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="range"] {
+      width: 100%;
+    }
+    
+    /* Надпись версии */
+    .version {
+      position: absolute;
+      bottom: 5px;
+      right: 10px;
       font-size: 10px;
-      color: #888;
-      user-select: none;
+      color: #555;
+    }
+    
+    /* Адаптация для маленьких экранов */
+    @media (max-width: 480px) {
+      .container {
+        width: 95%;
+        max-width: 350px;
+        padding: 8px;
+      }
+      .logo {
+        width: 120px;
+        margin-bottom: 15px;
+      }
+      .btn, .back-btn {
+        font-size: 10px;
+        padding: 8px;
+      }
+      .version {
+        font-size: 8px;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="overlay" onclick="closeModals()"></div>
-
-  <!-- Настройки -->
-  <div id="settingsModal">
-    <h3>Настройки</h3>
-    <label>🎵 Музыка: <input type="checkbox" id="musicToggle" checked></label>
-    <label>🎶 Громкость музыки: <input type="range" id="musicVolume" min="0" max="100" value="50"></label>
-    <label>🔊 Громкость звуков: <input type="range" id="soundVolume" min="0" max="100" value="70"></label>
-    <button onclick="closeModals()">Закрыть</button>
-  </div>
-
-  <!-- Меню гамбургер -->
-  <div id="gameMenuModal">
-    <button onclick="goToMenu()">🏠 Главное меню</button>
-    <button onclick="openSettings()">⚙️ Настройки</button>
-    <button onclick="closeModals()">❌ Закрыть</button>
-  </div>
-
-  <!-- Главное меню -->
-  <div class="container" id="menuScreen">
-    <img src="logo.png" alt="Логотип" class="logo" draggable="false" />
-    <div class="menu">
-      <button onclick="startGame()">🎮 Начать</button>
-      <button onclick="openRules()">📜 Правила</button>
-      <button onclick="openSettings()">⚙️ Настройки</button>
+  <div class="container">
+    <!-- Логотип игры (замените your-logo.png на путь к вашему логотипу) -->
+    <img src="your-logo.png" alt="Логотип игры" class="logo">
+    
+    <!-- Главное меню -->
+    <div id="menu" class="menu active">
+      <button class="btn" onclick="startGame()">Играть</button>
+      <button class="btn" onclick="showSettings()">Настройки</button>
+      <button class="btn" onclick="showRules()">Правила</button>
     </div>
+    
+    <!-- Настройки игры -->
+    <div id="settings" class="settings">
+      <h2>Настройки</h2>
+      <!-- Переключатель музыки -->
+      <div class="toggle">
+        <input type="checkbox" id="musicToggle" checked>
+        <label for="musicToggle">Музыка вкл/выкл</label>
+      </div>
+      <!-- Ползунок громкости музыки -->
+      <div class="slider-container">
+        <label for="musicVolume">Громкость музыки:</label>
+        <input type="range" id="musicVolume" min="0" max="100" value="50">
+      </div>
+      <!-- Ползунок громкости звуков -->
+      <div class="slider-container">
+        <label for="soundVolume">Громкость звуков:</label>
+        <input type="range" id="soundVolume" min="0" max="100" value="50">
+      </div>
+      <button class="back-btn" onclick="backToMenu()">Назад</button>
+    </div>
+    
+    <!-- Правила игры -->
+    <div id="rules" class="rules">
+      <h2>Правила игры</h2>
+      <p>
+        Здесь разместите правила вашей игры. Опишите последовательность действий, цели и, при необходимости, особенности игры.
+      </p>
+      <button class="back-btn" onclick="backToMenu()">Назад</button>
+    </div>
+    
+    <!-- Отображение текущей версии -->
+    <div class="version">v1.0.0</div>
   </div>
-
-  <!-- Версия -->
-  <div id="version">ROST Clicker v0.1</div>
-
-  <!-- Игровой экран -->
-  <div id="gameScreen">
-    <button class="menu-button" onclick="openGameMenu()">☰</button>
-    <div id="repCounter">Реп: 0</div>
-    <div id="shiftState">Смена</div>
-    <div id="shiftTimer">30 сек</div>
-
-    <button id="workButton" class="game-btn" onclick="workClick()">РАБОТАТЬ</button>
-
-    <!-- Место для +rep анимации -->
-    <div id="repFlyContainer" style="position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); pointer-events:none;"></div>
-  </div>
-
-  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
-
-<script>
-  let rep = 0;
-  let isShift = true; // true - работа, false - перекур
-  let shiftDuration = 30; // секунд смена
-  let breakDuration = 30; // секунд перекур
-  let shiftTimeLeft = shiftDuration;
-  let breakTimeLeft = breakDuration;
-  let shiftTimerId;
-
-  const repCounter = document.getElementById('repCounter');
-  const shiftState = document.getElementById('shiftState');
-// Получаем элементы по id
-const shiftState = document.getElementById('shiftState');
-const shiftTimer = document.getElementById('shiftTimer');
-const workButton = document.getElementById('workButton');
-const repFlyContainer = document.getElementById('repFlyContainer');
-const overlay = document.getElementById('overlay');
-const settingsModal = document.getElementById('settingsModal');
-const gameMenuModal = document.getElementById('gameMenuModal');
-const bgMusic = document.getElementById('bgMusic');
-const musicToggle = document.getElementById('musicToggle');
-const musicVolume = document.getElementById('musicVolume');
-const soundVolume = document.getElementById('soundVolume');
-const repCounter = document.getElementById('repCounter');  // Элемент для отображения репутации
-
-// Переменные игры
-let rep = 0;
-let isShift = true; // true — смена, false — перекур
-const shiftDuration = 30; // длительность смены в секундах
-const breakDuration = 30; // длительность перекура в секундах
-let shiftTimeLeft = shiftDuration;
-let breakTimeLeft = breakDuration;
-let shiftTimerId = null;
-
-// Инициализация при загрузке страницы
-window.onload = () => {
-  bgMusic.volume = 0.5;
-  if (musicToggle.checked) {
-    bgMusic.play().catch(() => {
-      // автозапуск может быть заблокирован браузером
-    });
-  }
-  updateRep();
-  updateShiftState();
-  startShiftTimer();
-};
-
-// Функции управления интерфейсом
-function startGame() {
-  document.getElementById('menuScreen').style.display = 'none';
-  document.getElementById('gameScreen').style.display = 'flex';
-}
-
-function openRules() {
-  alert(
-    "Правила игры:\n\n" +
-    "- Нажимайте кнопку РАБОТАТЬ, чтобы зарабатывать репутацию.\n" +
-    "- После 30 секунд работы — перекур на 30 секунд.\n" +
-    "- Перекур: кнопка РАБОТАТЬ отключена.\n" +
-    "- Управляйте музыкой и звуками в настройках."
-  );
-}
-
-function openSettings() {
-  overlay.style.display = 'block';
-  settingsModal.style.display = 'block';
-}
-
-function openGameMenu() {
-  overlay.style.display = 'block';
-  gameMenuModal.style.display = 'block';
-}
-
-function closeModals() {
-  overlay.style.display = 'none';
-  settingsModal.style.display = 'none';
-  gameMenuModal.style.display = 'none';
-}
-
-function goToMenu() {
-  closeModals();
-  document.getElementById('gameScreen').style.display = 'none';
-  document.getElementById('menuScreen').style.display = 'flex';
-}
-
-// Обновление отображения репутации
-function updateRep() {
-  repCounter.textContent = `Реп: ${rep}`;
-}
-
-// Обновление состояния смены/перекура
-function updateShiftState() {
-  if (isShift) {
-    shiftState.textContent = 'Смена';
-    workButton.disabled = false;
-  } else {
-    shiftState.textContent = 'Перекур';
-    workButton.disabled = true;
-  }
-}
-
-// Запуск таймера смены и перекура
-function startShiftTimer() {
-  if (shiftTimerId) clearInterval(shiftTimerId);
-  shiftTimeLeft = shiftDuration;
-  breakTimeLeft = breakDuration;
-  shiftTimer.textContent = `${shiftTimeLeft} сек`;
-
-  shiftTimerId = setInterval(() => {
-    if (isShift) {
-      shiftTimeLeft--;
-      shiftTimer.textContent = `${shiftTimeLeft} сек`;
-      if (shiftTimeLeft <= 0) {
-        isShift = false;
-        updateShiftState();
-        shiftTimer.textContent = `${breakTimeLeft} сек`;
-      }
-    } else {
-      breakTimeLeft--;
-      shiftTimer.textContent = `${breakTimeLeft} сек`;
-      if (breakTimeLeft <= 0) {
-        isShift = true;
-        updateShiftState();
-        shiftTimeLeft = shiftDuration;
-        shiftTimer.textContent = `${shiftTimeLeft} сек`;
-      }
+  
+  <script>
+    // Функция для запуска игры (будет дополнена логикой или перенаправлением в игровое пространство)
+    function startGame() {
+      // Здесь можно добавить открытие нового окна, вызов игрового движка или любую другую логику
+      alert("Запуск игры...");
     }
-  }, 1000);
-}
-
-// Обработка нажатия кнопки РАБОТАТЬ
-function workClick() {
-  if (!isShift) return;
-
-  rep++;
-  updateRep();
-  showRepFly();
-  playSoundClick();
-}
-
-// Анимация "+1 реп"
-function showRepFly() {
-  const fly = document.createElement('div');
-  fly.className = 'rep-fly';
-  fly.textContent = '+1 реп';
-  repFlyContainer.appendChild(fly);
-
-  // Позиционирование случайное по горизонтали ±40px
-  fly.style.left = (50 + (Math.random() * 80 - 40)) + '%';
-
-  // Удалить элемент после анимации (1 секунда)
-  setTimeout(() => {
-    fly.remove();
-  }, 1000);
-}
-
-// Воспроизведение звука клика (заглушка)
-function playSoundClick() {
-  if (soundVolume.value == 0) return;
-  // Здесь можно добавить воспроизведение звука клика, если он есть
-}
-
-// Управление музыкой через чекбокс
-musicToggle.addEventListener('change', () => {
-  if (musicToggle.checked) {
-    bgMusic.play();
-  } else {
-    bgMusic.pause();
-  }
-});
-
-// Регулировка громкости музыки
-musicVolume.addEventListener('input', () => {
-  const vol = musicVolume.value / 100;
-  bgMusic.volume = vol;
-});
-
-// Регулировка громкости звуков (пока заглушка)
-soundVolume.addEventListener('input', () => {
-  // Можно добавить изменение громкости звуков здесь
-});
+    
+    // Переход к разделу настроек
+    function showSettings() {
+      document.getElementById("menu").classList.remove("active");
+      document.getElementById("settings").classList.add("active");
+    }
+    
+    // Переход к разделу правил
+    function showRules() {
+      document.getElementById("menu").classList.remove("active");
+      document.getElementById("rules").classList.add("active");
+    }
+    
+    // Возврат в главное меню
+    function backToMenu() {
+      document.getElementById("settings").classList.remove("active");
+      document.getElementById("rules").classList.remove("active");
+      document.getElementById("menu").classList.add("active");
+    }
+  </script>
+</body>
+</html>
