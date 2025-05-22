@@ -18,38 +18,6 @@
       background: url('your-background-file.jpg') no-repeat center center;
       background-size: cover;
     }
-    /* Кнопка крипто-биржи (отображается только в игровом режиме) */
-.crypto-button-container {
-  position: fixed;
-  bottom: 45px;
-  left: 5px;
-  z-index: 1100;
-  display: none;
-}
-.crypto-button-container button {
-  padding: 5px 10px;
-  background: linear-gradient(to bottom, #fff, #d4d0c8);
-  border: 1px solid #808080;
-  box-shadow: 1px 1px 0 #fff;
-  cursor: pointer;
-  font-size: 12px;
-  text-transform: uppercase;
-}
-
-/* График крипто-активов (спарклайн) */
-.crypto-asset .chart {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
-  height: 30px;
-  margin-top: 5px;
-}
-.crypto-asset .chart span {
-  display: inline-block;
-  width: 5px;
-  margin: 0 1px;
-  background: #00cc00;
-}
     /* ГЛАВНОЕ МЕНЮ */
     .container {
       width: 90%;
@@ -487,9 +455,9 @@
       <button id="taskbarStartBtn" class="start-button">Пуск</button>
     </div>
     <div class="links-section">
-      <a href="https://t.me/bubilny" target="_blank">TG канал</a>  
+      <a href="https://t.me/yourTGchannel" target="_blank">TG канал</a>
       <a href="https://discord.gg/yourDiscordLink" target="_blank">Discord</a>
-      <a href="https://t.me/DaisukeNarotan" target="_blank">Мой TG</a>
+      <a href="https://t.me/yourTGaccount" target="_blank">Мой TG</a>
     </div>
   </div>
   
@@ -498,17 +466,12 @@
     <button id="cryptoButton" onclick="openCryptoModal()">Крипто-биржа</button>
   </div>
   
-<!-- КНОПКА КРИПТО-БИРЖИ (отображается только в игровом режиме) -->
-<div class="crypto-button-container">
-  <button id="cryptoButton" onclick="openCryptoModal()">Крипто-биржа</button>
-</div>
-
-<!-- МОДАЛЬНОЕ ОКНО КРИПТО-БИРЖИ -->
-<div id="cryptoModal" class="crypto-modal">
-  <h2>Крипто-биржа</h2>
-  <div id="cryptoAssets"></div>
-  <button class="close-btn" onclick="closeCryptoModal()">Закрыть</button>
-</div>
+  <!-- МОДАЛЬНОЕ ОКНО КРИПТО-БИРЖИ -->
+  <div id="cryptoModal" class="crypto-modal">
+    <h2>Крипто-биржа</h2>
+    <div id="cryptoAssets"></div>
+    <button class="close-btn" onclick="closeCryptoModal()">Закрыть</button>
+  </div>
   
   <!-- ОВЕРЛЕЙ ПАУЗЫ -->
   <div id="pauseOverlay" class="pause-overlay">
@@ -822,51 +785,6 @@
     document.getElementById("soundVolume").addEventListener("input", function() {
       soundVolume = this.value / 100;
     });
-    // Открытие модального окна крипто-биржи
-function openCryptoModal() {
-  updateCryptoModal();
-  document.getElementById("cryptoModal").style.display = "block";
-}
-
-// Закрытие модального окна крипто-биржи
-function closeCryptoModal() {
-  document.getElementById("cryptoModal").style.display = "none";
-}
-
-// Функция покупки актива (единица стоит 50 ₽)
-function investCrypto(key) {
-  const asset = cryptoAssets[key];
-  const amount = parseInt(prompt(`Введите количество единиц для покупки ${asset.name} (Цена: ${asset.price} ₽ за единицу):`));
-  if (!isNaN(amount) && amount > 0 && (amount * asset.price) <= rublesCount) {
-    rublesCount -= amount * asset.price;
-    asset.quantity += amount;
-    asset.purchasePrice = asset.price;
-    asset.purchaseShift = shiftCount;
-    document.getElementById("counter").textContent = rublesCount + " ₽";
-    updateCryptoModal();
-  } else {
-    alert("Неверное количество или недостаточно рублей!");
-  }
-}
-
-// Функция продажи актива
-function sellCrypto(key) {
-  const asset = cryptoAssets[key];
-  if (asset.quantity > 0 && shiftCount > asset.purchaseShift) {
-    const totalCost = asset.quantity * asset.purchasePrice;
-    const currentCost = asset.quantity * asset.price;
-    const profit = currentCost - totalCost;
-    rublesCount += currentCost;
-    alert(`Вы продали ${asset.quantity} ${asset.name} и получили ${profit} ₽ прибыли!`);
-    asset.quantity = 0;
-    asset.purchasePrice = 0;
-    asset.purchaseShift = 0;
-    document.getElementById("counter").textContent = rublesCount + " ₽";
-    updateCryptoModal();
-  } else {
-    alert("Продажа недоступна, дождитесь следующей смены.");
-  }
-}
   </script>
 </body>
 </html>
