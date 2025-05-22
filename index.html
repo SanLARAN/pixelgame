@@ -4,19 +4,22 @@
   <meta charset="UTF-8">
   <title>Телеграм игра - Windows XP стиль</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Подключаем шрифт Tahoma, характерный для Windows XP -->
+  <!-- Подключаем шрифт Tahoma, который был популярен в эпоху Windows XP -->
   <link href="https://fonts.googleapis.com/css?family=Tahoma:400,700&display=swap" rel="stylesheet">
   <style>
-    /* Основной фон и настройки body */
+    /* Универсальные стили для корректного отображения всех элементов */
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: Tahoma, sans-serif;
-      /* Фон можно заменить своим файлом */
+      /* Фон всегда растягивается на весь экран и центрирован */
       background: url('your-background-file.jpg') no-repeat center center;
       background-size: cover;
     }
     
-    /* "Окошко" приложения в стиле Windows XP */
+    /* Основное окно приложения в стиле Windows XP */
     .container {
       width: 90%;
       max-width: 400px;
@@ -26,7 +29,7 @@
       box-shadow: 4px 4px 0px #808080;
     }
     
-    /* Заголовок окна с характерным синим градиентом Windows XP */
+    /* Заголовок окна с синим градиентом, напоминающим XP */
     .xp-header {
       background: linear-gradient(to right, #0a246a, #2a5dab);
       color: #fff;
@@ -50,7 +53,7 @@
       padding: 10px;
     }
     
-    /* Секции меню, настроек и правил */
+    /* Секции меню, настроек и правил – только активная видна */
     .menu, .settings, .rules {
       display: none;
     }
@@ -58,7 +61,7 @@
       display: block;
     }
     
-    /* Кнопки в стиле Windows XP: светлый градиент, тонкая рамка и тень */
+    /* Кнопки в стиле Windows XP */
     .xp-btn, .xp-back-btn {
       display: block;
       width: 100%;
@@ -74,7 +77,7 @@
       box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
     }
     
-    /* Стили для переключателя и ползунков */
+    /* Настройки — переключатель и ползунки */
     .toggle, .slider-container {
       margin: 10px 0;
     }
@@ -99,7 +102,7 @@
       color: #555;
     }
     
-    /* Адаптация для маленьких экранов */
+    /* Адаптация для экранов до 480px */
     @media (max-width: 480px) {
       .container {
         max-width: 350px;
@@ -115,11 +118,37 @@
         font-size: 8px;
       }
     }
+    
+    /* Панель задач в стиле Windows XP */
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(to top, #b4b4b4, #d6d6d6);
+      border-top: 1px solid #808080;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .taskbar a {
+      margin: 0 10px;
+      padding: 5px 10px;
+      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      border: 1px solid #808080;
+      box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
+      color: #000;
+      font-size: 12px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Заголовок окна с логотипом и названием -->
+    <!-- Заголовок окна с логотипом и названием "R.O.S.T." -->
     <div class="xp-header">
       <img src="your-logo.png" alt="Логотип" class="logo">
       <h1>R.O.S.T.</h1>
@@ -164,20 +193,29 @@
     </div>
   </div>
   
+  <!-- Панель задач в стиле Windows XP с тремя кнопками-ссылками -->
+  <div class="taskbar">
+    <a href="https://t.me/bubilny" target="_blank">TG канал</a>
+    <a href="https://discord.gg/yourDiscordLink" target="_blank">Discord</a>
+    <a href="https://t.me/DaisukeNarotan" target="_blank">Мой TG</a>
+  </div>
+  
   <script>
-    // Функция запуска игры (в дальнейшем здесь можно интегрировать игровую логику)
+    // Функция для запуска игры (здесь можно подключить игровую логику)
     function startGame() {
       alert("Запуск игры...");
     }
-    // Переключение между разделами
+    // Переключение на раздел настройки
     function showSettings() {
       document.getElementById("menu").classList.remove("active");
       document.getElementById("settings").classList.add("active");
     }
+    // Переключение на раздел правил
     function showRules() {
       document.getElementById("menu").classList.remove("active");
       document.getElementById("rules").classList.add("active");
     }
+    // Возврат в главное меню
     function backToMenu() {
       document.getElementById("settings").classList.remove("active");
       document.getElementById("rules").classList.remove("active");
