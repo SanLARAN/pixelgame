@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Телеграм игра - Windows XP стиль</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Подключаем шрифт Tahoma – характерный для Windows XP -->
+  <!-- Подключаем шрифт Tahoma – классика Windows XP -->
   <link href="https://fonts.googleapis.com/css?family=Tahoma:400,700&display=swap" rel="stylesheet">
   <style>
     /* ОБЩИЕ СТИЛИ */
@@ -25,7 +25,7 @@
       margin: 20px auto;
       background: #f0f0f0;
       border: 2px solid #808080;
-      box-shadow: 4px 4px 0px #808080;
+      box-shadow: 4px 4px 0 #808080;
     }
     .xp-header {
       background: linear-gradient(to right, #0a246a, #2a5dab);
@@ -63,9 +63,9 @@
       font-size: 12px;
       color: #000;
       cursor: pointer;
-      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      background: linear-gradient(to bottom, #fff, #d4d0c8);
       border: 1px solid #808080;
-      box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
+      box-shadow: 1px 1px 0 #fff, inset -1px -1px 0 #fff;
     }
     .toggle, .slider-container {
       margin: 10px 0;
@@ -129,26 +129,27 @@
     }
     .taskbar .links-section a {
       padding: 5px 10px;
-      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      background: linear-gradient(to bottom, #fff, #d4d0c8);
       border: 1px solid #808080;
-      box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
+      box-shadow: 1px 1px 0 #fff, inset -1px -1px 0 #fff;
       color: #000;
       font-size: 12px;
       text-transform: uppercase;
       text-decoration: none;
     }
-    /* Кнопка крипто-биржи (расположена над панелью задач, слева) */
+    /* КНОПКА КРИПТО-БИРЖИ (отображается только в игровом режиме) */
     .crypto-button-container {
       position: fixed;
       bottom: 45px;
       left: 5px;
       z-index: 1100;
+      display: none;
     }
     .crypto-button-container button {
       padding: 5px 10px;
-      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      background: linear-gradient(to bottom, #fff, #d4d0c8);
       border: 1px solid #808080;
-      box-shadow: 1px 1px 0px #fff;
+      box-shadow: 1px 1px 0 #fff;
       cursor: pointer;
       font-size: 12px;
       text-transform: uppercase;
@@ -168,8 +169,8 @@
     }
     @keyframes bgAnimation {
       0% { filter: brightness(50%) blur(5px); transform: scale(1.1); }
-      50% { filter: brightness(120%) blur(0px); transform: scale(1); }
-      100% { filter: brightness(100%) blur(0px); transform: scale(1); }
+      50% { filter: brightness(120%) blur(0); transform: scale(1); }
+      100% { filter: brightness(100%) blur(0); transform: scale(1); }
     }
     #game .game-ui {
       position: relative;
@@ -194,7 +195,7 @@
       border-radius: 8px;
       box-shadow: 2px 2px 5px rgba(0,0,0,0.7);
     }
-    /* ТАЙМЕР СМЕНЫ (левый верхний угол), стилизован под XP */
+    /* ТАЙМЕР СМЕНЫ (левый верхний угол) */
     .shift-timer {
       position: absolute;
       top: 10px;
@@ -208,7 +209,7 @@
       box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
       z-index: 1001;
     }
-    /* СЧЁТЧИК СМЕН (правый верхний угол) */
+    /* СЧЁТЧИК СМЕНЫ (правый верхний угол) */
     .shift-counter {
       position: absolute;
       top: 10px;
@@ -228,9 +229,9 @@
       padding: 10px 20px;
       font-size: 16px;
       text-transform: uppercase;
-      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      background: linear-gradient(to bottom, #fff, #d4d0c8);
       border: 1px solid #808080;
-      box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
+      box-shadow: 1px 1px 0 #fff, inset -1px -1px 0 #fff;
       cursor: pointer;
       transition: transform 0.2s;
     }
@@ -268,13 +269,13 @@
       width: 100%;
       margin: 5px 0;
       padding: 5px;
-      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      background: linear-gradient(to bottom, #fff, #d4d0c8);
       border: 1px solid #808080;
       cursor: pointer;
       text-transform: uppercase;
       font-size: 12px;
     }
-    .pause-btn:hover { background: linear-gradient(to bottom, #d4d0c8, #ffffff); }
+    .pause-btn:hover { background: linear-gradient(to bottom, #d4d0c8, #fff); }
     /* ОВЕРЛЕЙ ПАУЗЫ */
     .pause-overlay {
       position: fixed;
@@ -310,7 +311,7 @@
       width: 300px;
       background: #f0f0f0;
       border: 2px solid #000080;
-      box-shadow: 4px 4px 0px #808080;
+      box-shadow: 4px 4px 0 #808080;
       z-index: 1200;
       display: none;
     }
@@ -339,7 +340,7 @@
       transform: translate(-50%, -50%);
       background: #f0f0f0;
       border: 2px solid #808080;
-      box-shadow: 4px 4px 0px #808080;
+      box-shadow: 4px 4px 0 #808080;
       z-index: 1300;
       width: 320px;
       padding: 15px;
@@ -370,23 +371,41 @@
       font-size: 14px;
       text-align: center;
     }
+    .crypto-asset .delta {
+      font-size: 14px;
+      text-align: center;
+      margin: 2px 0;
+    }
+    .crypto-asset .chart {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      height: 30px;
+      margin-top: 5px;
+    }
+    .crypto-asset .chart span {
+      display: inline-block;
+      width: 5px;
+      margin: 0 1px;
+      background: #00cc00;
+    }
     .crypto-asset button {
       margin: 3px;
       padding: 3px 6px;
       font-size: 12px;
-      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      background: linear-gradient(to bottom, #fff, #d4d0c8);
       border: 1px solid #808080;
       cursor: pointer;
       text-transform: uppercase;
     }
     .crypto-asset button:hover {
-      background: linear-gradient(to bottom, #d4d0c8, #ffffff);
+      background: linear-gradient(to bottom, #d4d0c8, #fff);
     }
     .crypto-modal button.close-btn {
       display: block;
       margin: 10px auto 0;
       padding: 5px 15px;
-      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      background: linear-gradient(to bottom, #fff, #d4d0c8);
       border: 1px solid #808080;
       cursor: pointer;
       text-transform: uppercase;
@@ -439,16 +458,6 @@
     </div>
   </div>
   
-  <!-- ИГРОВОЙ ЭКРАН -->
-  <div id="game">
-    <div class="game-ui">
-      <div id="shiftTimer" class="shift-timer">Смена: 00:30</div>
-      <div id="counter" class="counter">0 ₽</div>
-      <div id="shiftCounter" class="shift-counter">Смена: 0</div>
-      <button id="workButton" class="game-btn" onclick="work()">работать</button>
-    </div>
-  </div>
-  
   <!-- ПАНЕЛЬ ЗАДАЧ -->
   <div class="taskbar">
     <div class="start-section">
@@ -461,7 +470,7 @@
     </div>
   </div>
   
-  <!-- КНОПКА КРИПТО-БИРЖИ -->
+  <!-- КНОПКА КРИПТО-БИРЖИ (отображается только в игровом режиме) -->
   <div class="crypto-button-container">
     <button id="cryptoButton" onclick="openCryptoModal()">Крипто-биржа</button>
   </div>
@@ -471,6 +480,16 @@
     <h2>Крипто-биржа</h2>
     <div id="cryptoAssets"></div>
     <button class="close-btn" onclick="closeCryptoModal()">Закрыть</button>
+  </div>
+  
+  <!-- ИГРОВОЙ ЭКРАН -->
+  <div id="game">
+    <div class="game-ui">
+      <div id="shiftTimer" class="shift-timer">Смена: 00:30</div>
+      <div id="counter" class="counter">0 ₽</div>
+      <div id="shiftCounter" class="shift-counter">Смена: 0</div>
+      <button id="workButton" class="game-btn" onclick="work()">работать</button>
+    </div>
   </div>
   
   <!-- ОВЕРЛЕЙ ПАУЗЫ -->
@@ -496,21 +515,21 @@
     let rublesCount = 0;
     let gameActive = false;
     let gamePaused = false;
-    const shiftDuration = 30;  // длительность смены (сек)
-    const breakDuration = 15;  // длительность перекура (сек)
+    const shiftDuration = 30; // длительность смены (сек)
+    const breakDuration = 15; // длительность перекура (сек)
     let remainingTime = shiftDuration;
     let shiftInterval = null;
     let inBreak = false;
     let shiftCount = 0;
-    let soundVolume = 0.5; // громкость звуков (0..1)
-    
-    // Крипто-активы
+    let soundVolume = 0.5; // громкость звуков (0 до 1)
+
+    // Крипто-активы (начальная цена 50 ₽ за единицу)
     let cryptoAssets = {
-      rost: { name: "$ROST", price: 100, investment: 0, investedPrice: 0, investedShift: 0 },
-      bob: { name: "BobCoin", price: 50, investment: 0, investedPrice: 0, investedShift: 0 },
-      factory: { name: "Фабрика качества", price: 200, investment: 0, investedPrice: 0, investedShift: 0 }
+      rost: { name: "$ROST", price: 50, quantity: 0, purchasePrice: 0, purchaseShift: 0, history: [] },
+      bob: { name: "BobCoin", price: 50, quantity: 0, purchasePrice: 0, purchaseShift: 0, history: [] },
+      factory: { name: "Фабрика качества", price: 50, quantity: 0, purchasePrice: 0, purchaseShift: 0, history: [] }
     };
-    
+
     // Функция воспроизведения звука нажатия
     function playButtonClick() {
       const sound = document.getElementById("buttonClickSound");
@@ -518,87 +537,116 @@
       sound.currentTime = 0;
       sound.play();
     }
-    
-    // Форматирование времени mm:ss
+
+    // Форматирование времени (mm:ss)
     function formatTime(seconds) {
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
       return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
     }
-    
+
     function updateShiftTimerDisplay() {
       const timerEl = document.getElementById("shiftTimer");
       timerEl.textContent = (inBreak ? "Перекур: " : "Смена: ") + formatTime(remainingTime);
     }
-    
-    // Обновление данных в модальном окне крипто-биржи
+
+    // Обновление истории актива (10 точек для графика)
+    function updateAssetHistory(asset) {
+      asset.history = [];
+      let base = asset.price;
+      for (let i = 0; i < 10; i++) {
+        let delta = (Math.random() * 0.2 - 0.1) * base;
+        asset.history.push(Math.round(base + delta));
+      }
+    }
+
+    // Рендеринг спарклайна (простой график)
+    function renderAssetChart(asset) {
+      let min = Math.min(...asset.history);
+      let max = Math.max(...asset.history);
+      let chartHTML = '<div class="chart">';
+      asset.history.forEach(value => {
+        let h = 30;
+        if (max > min) { h = 30 * (value - min) / (max - min); }
+        chartHTML += `<span style="height:${h}px;"></span>`;
+      });
+      chartHTML += '</div>';
+      return chartHTML;
+    }
+
+    // Обновление модального окна крипто-биржи
     function updateCryptoModal() {
       const container = document.getElementById("cryptoAssets");
       container.innerHTML = "";
       for (let key in cryptoAssets) {
         const asset = cryptoAssets[key];
-        const assetDiv = document.createElement("div");
+        updateAssetHistory(asset);
+        let assetDiv = document.createElement("div");
         assetDiv.className = "crypto-asset";
-        assetDiv.innerHTML = `
-          <h3>${asset.name}</h3>
+        let html = `<h3>${asset.name}</h3>
           <p>Цена: ${asset.price} ₽</p>
-          <p>Вложено: ${asset.investment > 0 ? asset.investment + " ₽" : "Нет"}</p>
-        `;
-        if (asset.investment === 0) {
-          let investBtn = document.createElement("button");
-          investBtn.textContent = "Вложить";
-          investBtn.onclick = function() { investCrypto(key); };
-          assetDiv.appendChild(investBtn);
-        } else if (shiftCount > asset.investedShift) {
-          let sellBtn = document.createElement("button");
-          sellBtn.textContent = "Продать";
-          sellBtn.onclick = function() { sellCrypto(key); };
-          assetDiv.appendChild(sellBtn);
+          <p>Куплено: ${asset.quantity > 0 ? asset.quantity : "Нет"}</p>`;
+        if (asset.quantity > 0) {
+          let delta = asset.price - asset.purchasePrice;
+          let arrow = delta > 0 ? "↑" : (delta < 0 ? "↓" : "");
+          html += `<p class="delta">${arrow} ${Math.abs(delta)} ₽</p>`;
         }
+        html += renderAssetChart(asset);
+        if (asset.quantity === 0) {
+          html += `<button onclick="investCrypto('${key}')">Купить</button>`;
+        } else if (shiftCount > asset.purchaseShift) {
+          html += `<button onclick="sellCrypto('${key}')">Продать</button>`;
+        }
+        assetDiv.innerHTML = html;
         container.appendChild(assetDiv);
       }
     }
-    
+
     function openCryptoModal() {
       updateCryptoModal();
       document.getElementById("cryptoModal").style.display = "block";
     }
-    
+
     function closeCryptoModal() {
       document.getElementById("cryptoModal").style.display = "none";
     }
-    
+
+    // Покупка актива (единица стоит 50 ₽)
     function investCrypto(key) {
-      const amount = parseInt(prompt(`Введите сумму для инвестирования в ${cryptoAssets[key].name}:`));
-      if (!isNaN(amount) && amount > 0 && amount <= rublesCount) {
-        cryptoAssets[key].investment = amount;
-        cryptoAssets[key].investedPrice = cryptoAssets[key].price;
-        cryptoAssets[key].investedShift = shiftCount;
-        rublesCount -= amount;
+      const asset = cryptoAssets[key];
+      const amount = parseInt(prompt(`Введите количество единиц для покупки ${asset.name} (Цена: ${asset.price} ₽ за единицу):`));
+      if (!isNaN(amount) && amount > 0 && (amount * asset.price) <= rublesCount) {
+        rublesCount -= amount * asset.price;
+        asset.quantity += amount;
+        asset.purchasePrice = asset.price;
+        asset.purchaseShift = shiftCount;
         document.getElementById("counter").textContent = rublesCount + " ₽";
         updateCryptoModal();
       } else {
-        alert("Неверная сумма или недостаточно рублей!");
+        alert("Неверное количество или недостаточно рублей!");
       }
     }
-    
+
+    // Продажа актива
     function sellCrypto(key) {
       const asset = cryptoAssets[key];
-      if (asset.investment > 0 && shiftCount > asset.investedShift) {
-        const profit = Math.round(asset.investment * (asset.price - asset.investedPrice) / asset.investedPrice);
-        rublesCount += asset.investment + profit;
-        alert(`Вы продали ${asset.name} и получили прибыль ${profit} ₽!`);
-        asset.investment = 0;
-        asset.investedPrice = 0;
-        asset.investedShift = 0;
+      if (asset.quantity > 0 && shiftCount > asset.purchaseShift) {
+        const totalCost = asset.quantity * asset.purchasePrice;
+        const currentCost = asset.quantity * asset.price;
+        const profit = currentCost - totalCost;
+        rublesCount += currentCost;
+        alert(`Вы продали ${asset.quantity} ${asset.name} и получили ${profit} ₽ прибыли!`);
+        asset.quantity = 0;
+        asset.purchasePrice = 0;
+        asset.purchaseShift = 0;
         document.getElementById("counter").textContent = rublesCount + " ₽";
         updateCryptoModal();
       } else {
         alert("Продажа недоступна, дождитесь следующей смены.");
       }
     }
-    
-    // Возобновляем таймер (при продолжении игры)
+
+    // Возобновление таймера (при продолжении игры)
     function resumeTimer() {
       shiftInterval = setInterval(() => {
         remainingTime--;
@@ -611,7 +659,7 @@
             updateShiftTimerDisplay();
             resumeTimer();
             document.getElementById("workButton").disabled = false;
-            // Обновляем цены активов при начале новой рабочей смены
+            // Обновляем цены крипто-активов при начале новой смены
             for (let key in cryptoAssets) {
               let asset = cryptoAssets[key];
               let factor = Math.random() * 0.2 + 0.9;
@@ -623,8 +671,8 @@
         }
       }, 1000);
     }
-    
-    // Начало рабочей фазы: увеличиваем счётчик смен, обновляем крипто цены и запускаем таймер
+
+    // Начало рабочей фазы: обновляем цены, генерируем историю и увеличиваем счётчик смены
     function startWorkPhase() {
       inBreak = false;
       remainingTime = shiftDuration;
@@ -632,11 +680,11 @@
       shiftCount++;
       document.getElementById("shiftCounter").textContent = "Смена: " + shiftCount;
       updateShiftTimerDisplay();
-      // Обновляем цены каждого актива
       for (let key in cryptoAssets) {
         let asset = cryptoAssets[key];
         let factor = Math.random() * 0.2 + 0.9;
         asset.price = Math.round(asset.price * factor);
+        updateAssetHistory(asset);
       }
       shiftInterval = setInterval(() => {
         remainingTime--;
@@ -647,15 +695,15 @@
         }
       }, 1000);
     }
-    
-    // Начало перекура: выключаем кнопку "работать", проигрываем звонок с нужной громкостью, показываем окно предупреждения
+
+    // Начало перекура: блокируем кнопку "работать", проигрываем звонок и показываем предупреждение
     function startBreakPhase() {
       inBreak = true;
       remainingTime = breakDuration;
       document.getElementById("workButton").disabled = true;
       updateShiftTimerDisplay();
       const breakBell = document.getElementById("breakBell");
-      breakBell.volume = soundVolume; 
+      breakBell.volume = soundVolume;
       breakBell.play();
       const alertElem = document.getElementById("breakAlert");
       alertElem.style.display = "block";
@@ -670,20 +718,16 @@
         }
       }, 1000);
     }
-    
-    // Запуск игры: скрываем главное меню, показываем игровой экран, запускаем рабочую фазу, включаем фоновую музыку (если включена в настройках)
+
+    // Запуск игры: скрываем главное меню, показываем игровой экран, запускаем рабочую фазу
     function startGame() {
       document.querySelector(".container").style.display = "none";
-      const gameScreen = document.getElementById("game");
-      gameScreen.style.display = "block";
-      gameScreen.style.animation = 'none';
-      gameScreen.offsetHeight;
-      gameScreen.style.animation = null;
+      document.getElementById("game").style.display = "block";
       gameActive = true;
       gamePaused = false;
-      let startBtn = document.getElementById("taskbarStartBtn");
-      startBtn.classList.add("stop");
-      startBtn.textContent = "Стоп";
+      document.getElementById("taskbarStartBtn").classList.add("stop");
+      document.getElementById("taskbarStartBtn").textContent = "Стоп";
+      document.querySelector(".crypto-button-container").style.display = "block";
       if (document.getElementById("musicToggle").checked) {
         const bgMusic = document.getElementById("bgMusic");
         bgMusic.volume = document.getElementById("musicVolume").value / 100;
@@ -691,8 +735,8 @@
       }
       startWorkPhase();
     }
-    
-    // Пауза игры: останавливаем таймер, показываем оверлей и меню паузы
+
+    // Остановка игры (пауза)
     function stopGame() {
       if (gameActive && !gamePaused) {
         clearInterval(shiftInterval);
@@ -701,27 +745,25 @@
         document.getElementById("pauseMenu").style.display = "block";
       }
     }
-    
-    // Продолжить игру: скрываем оверлей и меню, возобновляем таймер
+
+    // Продолжение игры
     function resumeGame() {
       document.getElementById("pauseOverlay").style.display = "none";
       document.getElementById("pauseMenu").style.display = "none";
       gamePaused = false;
       resumeTimer();
     }
-    
-    // Открыть настройки из меню паузы (выходим в главное меню и открываем настройки)
+
+    // Открытие настроек из меню паузы (выход в главное меню с переходом в настройки)
     function openPauseSettings() {
       document.getElementById("pauseOverlay").style.display = "none";
       document.getElementById("pauseMenu").style.display = "none";
       exitGame(true);
     }
-    
-    // Функция "Выйти": запрашиваем подтверждение (если не открываем настройки), останавливаем игру и возвращаем главное меню
+
+    // Выход из игры с подтверждением; если openSettings==true, после выхода открывается окно настроек
     function exitGame(openSettings) {
-      if (!openSettings && !confirm("Вы действительно хотите выйти?")) {
-        return;
-      }
+      if (!openSettings && !confirm("Вы действительно хотите выйти?")) return;
       clearInterval(shiftInterval);
       gameActive = false;
       gamePaused = false;
@@ -729,62 +771,25 @@
       document.getElementById("pauseOverlay").style.display = "none";
       document.getElementById("pauseMenu").style.display = "none";
       document.querySelector(".container").style.display = "block";
-      if (openSettings) { showSettings(); }
-      let startBtn = document.getElementById("taskbarStartBtn");
-      startBtn.classList.remove("stop");
-      startBtn.textContent = "Пуск";
+      if (openSettings) {
+        showSettings();
+      }
+      document.getElementById("taskbarStartBtn").classList.remove("stop");
+      document.getElementById("taskbarStartBtn").textContent = "Пуск";
       document.getElementById("bgMusic").pause();
+      document.querySelector(".crypto-button-container").style.display = "none";
     }
-    
-    // Кнопка "работать": увеличивает счётчик рублей (отображает число и знак ₽) и запускает анимацию "+₽"
+
+    // КНОПКА "РАБОТАТЬ": увеличивает счётчик рублей и показывает анимацию "+₽"
     function work() {
       rublesCount++;
       document.getElementById("counter").textContent = rublesCount + " ₽";
-      
       let popup = document.createElement("span");
       popup.className = "money-popup";
       popup.textContent = "+₽";
-      let workButton = document.getElementById("workButton");
-      workButton.appendChild(popup);
+      document.getElementById("workButton").appendChild(popup);
       setTimeout(() => { popup.remove(); }, 1000);
     }
-    
-    // Переключение между разделами главного меню
-    function showSettings() {
-      document.getElementById("menu").classList.remove("active");
-      document.getElementById("settings").classList.add("active");
-    }
-    function showRules() {
-      document.getElementById("menu").classList.remove("active");
-      document.getElementById("rules").classList.add("active");
-    }
-    function backToMenu() {
-      document.getElementById("settings").classList.remove("active");
-      document.getElementById("rules").classList.remove("active");
-      document.getElementById("menu").classList.add("active");
-    }
-    
-    // Обработчик для кнопки "Пуск/Стоп" в панели задач
-    document.getElementById("taskbarStartBtn").addEventListener("click", function() {
-      if (gameActive && !gamePaused) { stopGame(); }
-    });
-    
-    // Обработчики для настроек звука
-    document.getElementById("musicToggle").addEventListener("change", function() {
-      const bgMusic = document.getElementById("bgMusic");
-      if (this.checked) {
-        bgMusic.volume = document.getElementById("musicVolume").value / 100;
-        bgMusic.play();
-      } else {
-        bgMusic.pause();
-      }
-    });
-    document.getElementById("musicVolume").addEventListener("input", function() {
-      document.getElementById("bgMusic").volume = this.value / 100;
-    });
-    document.getElementById("soundVolume").addEventListener("input", function() {
-      soundVolume = this.value / 100;
-    });
   </script>
 </body>
 </html>
