@@ -7,19 +7,19 @@
   <!-- Подключаем шрифт Tahoma – характерный для Windows XP -->
   <link href="https://fonts.googleapis.com/css?family=Tahoma:400,700&display=swap" rel="stylesheet">
   <style>
-    /* Гарантируем, что html и body занимают всю высоту окна */
+    /* Общие стили для html и body */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
     }
-    /* Фон рабочего стола – растянут на весь экран */
+    /* Фон рабочего стола */
     body {
       font-family: Tahoma, sans-serif;
       background: url('your-background-file.jpg') no-repeat center center;
       background-size: cover;
     }
-    /* "Окошко" главного меню */
+    /* Блок главного меню */
     .container {
       width: 90%;
       max-width: 400px;
@@ -28,7 +28,7 @@
       border: 2px solid #808080;
       box-shadow: 4px 4px 0px #808080;
     }
-    /* Заголовок окна с синим градиентом Windows XP */
+    /* Заголовок главного меню (Windows XP стиль) */
     .xp-header {
       background: linear-gradient(to right, #0a246a, #2a5dab);
       color: #fff;
@@ -50,14 +50,14 @@
     .content {
       padding: 10px;
     }
-    /* Секции главного меню – показывается только активная */
+    /* Секции главного меню – по умолчанию скрыты */
     .menu, .settings, .rules {
       display: none;
     }
     .menu.active, .settings.active, .rules.active {
       display: block;
     }
-    /* Кнопки в главном меню */
+    /* Кнопки главного меню */
     .xp-btn, .xp-back-btn {
       display: block;
       width: 100%;
@@ -72,7 +72,7 @@
       border: 1px solid #808080;
       box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
     }
-    /* Стили переключателей и ползунков в настройках */
+    /* Настройки: переключатели и ползунки */
     .toggle, .slider-container {
       margin: 10px 0;
     }
@@ -107,11 +107,9 @@
         font-size: 10px;
         padding: 8px;
       }
-      .version {
-        font-size: 8px;
-      }
+      .version { font-size: 8px; }
     }
-    /* Панель задач в стиле Windows XP */
+    /* Панель задач (Windows XP стиль) */
     .taskbar {
       position: fixed;
       bottom: 0;
@@ -127,7 +125,7 @@
     .taskbar .start-section {
       margin-left: 5px;
     }
-    /* Кнопка "Пуск/Стоп" – реализована через CSS */
+    /* Кнопка "Пуск/Стоп" */
     .start-button {
       width: 80px;
       height: 32px;
@@ -157,7 +155,7 @@
       text-transform: uppercase;
       text-decoration: none;
     }
-    /* Игровой экран – растянут на весь экран с анимацией смены фона */
+    /* Игровой экран: фон с анимацией */
     #game {
       position: fixed;
       top: 0;
@@ -185,7 +183,7 @@
       align-items: center;
       justify-content: center;
     }
-    /* Улучшенный счётчик рублей: увеличенный размер, фон, округленные углы и тень */
+    /* Улучшенный счётчик рублей (Windows XP стиль) */
     .counter {
       position: absolute;
       top: 10px;
@@ -199,31 +197,35 @@
       border-radius: 8px;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     }
-    /* Таймер смены/перекура – в левом верхнем углу */
+    /* Стилизация таймера смены (левый верхний угол) в духе XP */
     .shift-timer {
       position: absolute;
       top: 10px;
       left: 10px;
       font-size: 16px;
       color: #fff;
-      background: rgba(0, 0, 0, 0.6);
+      background: linear-gradient(to right, #0a246a, #2a5dab);
       padding: 5px 10px;
-      border-radius: 5px;
+      border: 1px solid #808080;
+      border-radius: 3px;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
       z-index: 1001;
     }
-    /* Счётчик смен – в правом верхнем углу */
+    /* Стилизация счётчика смен (правый верхний угол) в духе XP */
     .shift-counter {
       position: absolute;
       top: 10px;
       right: 10px;
       font-size: 16px;
       color: #fff;
-      background: rgba(0, 0, 0, 0.6);
+      background: linear-gradient(to right, #0a246a, #2a5dab);
       padding: 5px 10px;
-      border-radius: 5px;
+      border: 1px solid #808080;
+      border-radius: 3px;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
       z-index: 1001;
     }
-    /* Кнопка "работать" с анимациями наведения и нажатия */
+    /* Кнопка "работать" с анимациями */
     .game-btn {
       position: relative;
       padding: 10px 20px;
@@ -259,7 +261,7 @@
       left: 5px;
       background: #f0f0f0;
       border: 1px solid #808080;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
       z-index: 1100;
       width: 150px;
       padding: 10px;
@@ -276,7 +278,7 @@
       font-size: 12px;
     }
     .pause-btn:hover { background: linear-gradient(to bottom, #d4d0c8, #ffffff); }
-    /* Оверлей для паузы: затемнение экрана, блокировка кликов и мигающая надпись "ПАУЗА" */
+    /* Оверлей для паузы: затемнение экрана, блокировка кликов, мигающая надпись "ПАУЗА" */
     .pause-overlay {
       position: fixed;
       top: 0;
@@ -302,7 +304,7 @@
       50% { opacity: 0; }
       100% { opacity: 1; }
     }
-    /* Окно предупреждения для перекура (аналог окна Windows XP) */
+    /* Окно предупреждения для перекура (под Windows XP) */
     .break-alert {
       position: fixed;
       top: 50%;
@@ -335,10 +337,10 @@
   </style>
 </head>
 <body>
-  <!-- Аудио элементов -->
+  <!-- Аудио элементы -->
   <!-- Звук звонка для перекура -->
   <audio id="breakBell" src="your-bell-sound.mp3" preload="auto"></audio>
-  <!-- Фоновая музыка (будет играть, если музыка включена) -->
+  <!-- Фоновая музыка -->
   <audio id="bgMusic" src="your-background-music.mp3" loop preload="auto"></audio>
   <!-- Звук нажатия кнопок -->
   <audio id="buttonClickSound" src="your-button-click-sound.mp3" preload="auto"></audio>
@@ -388,7 +390,7 @@
       <!-- Таймер смены/перекура (левый верхний угол) -->
       <div id="shiftTimer" class="shift-timer">Смена: 00:30</div>
       <!-- Счётчик заработанных рублей (центр сверху) -->
-      <div id="counter" class="counter">Рубли: 0</div>
+      <div id="counter" class="counter">0 ₽</div>
       <!-- Счётчик смен (правый верхний угол) -->
       <div id="shiftCounter" class="shift-counter">Смена: 0</div>
       <!-- Кнопка "работать" -->
@@ -427,7 +429,6 @@
   </div>
   
   <script>
-    // Глобальные переменные
     let rublesCount = 0;
     let gameActive = false;
     let gamePaused = false;
@@ -437,11 +438,10 @@
     let shiftInterval = null;
     let inBreak = false;
     let shiftCount = 0;
-    
-    // Глобальная переменная для громкости звуков (от 0 до 1)
+    // Глобальная переменная для звуковой громкости (0 до 1)
     let soundVolume = 0.5;
     
-    // Функция воспроизведения звука нажатия кнопки (главное меню и пауза)
+    // Функция воспроизведения звука нажатия
     function playButtonClick() {
       const sound = document.getElementById("buttonClickSound");
       sound.volume = soundVolume;
@@ -449,7 +449,7 @@
       sound.play();
     }
     
-    // Функция форматирования времени в формате mm:ss
+    // Форматирование времени в формате mm:ss
     function formatTime(seconds) {
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
@@ -465,7 +465,7 @@
       }
     }
     
-    // Возобновление таймера (при продолжении игры)
+    // Возобновление таймера
     function resumeTimer() {
       shiftInterval = setInterval(() => {
         remainingTime--;
@@ -524,8 +524,7 @@
       }, 1000);
     }
     
-    // Запуск игры: скрываем главное меню, показываем игровой экран, запускаем рабочую фазу,
-    // меняем кнопку панели задач на "Стоп"
+    // Запуск игры: скрываем главное меню, показываем игровой экран, запускаем рабочую фазу, меняем кнопку Пуск на "Стоп"
     function startGame() {
       document.querySelector(".container").style.display = "none";
       const gameScreen = document.getElementById("game");
@@ -538,15 +537,14 @@
       let startBtn = document.getElementById("taskbarStartBtn");
       startBtn.classList.add("stop");
       startBtn.textContent = "Стоп";
-      // При запуске игры, если музыка включена, запускаем фоновую музыку
       if (document.getElementById("musicToggle").checked) {
+        document.getElementById("bgMusic").volume = document.getElementById("musicVolume").value / 100;
         document.getElementById("bgMusic").play();
       }
       startWorkPhase();
     }
     
-    // При нажатии на кнопку "Стоп" (на панели задач) игра ставится на паузу:
-    // останавливаем таймер, показываем затемняющий оверлей и меню Паузы.
+    // При нажатии на кнопку "Стоп" игра ставится на паузу: останавливаем таймер, показываем оверлей и меню паузы
     function stopGame() {
       if (gameActive && !gamePaused) {
         clearInterval(shiftInterval);
@@ -556,7 +554,7 @@
       }
     }
     
-    // Продолжить игру: скрываем оверлей и меню, возобновляем таймер.
+    // Продолжить игру: скрываем оверлей и меню, возобновляем таймер
     function resumeGame() {
       document.getElementById("pauseOverlay").style.display = "none";
       document.getElementById("pauseMenu").style.display = "none";
@@ -564,14 +562,14 @@
       resumeTimer();
     }
     
-    // Открыть настройки из меню паузы – выходим в главное меню и открываем настройки.
+    // Открыть настройки из меню паузы – выходим в главное меню и открываем настройки
     function openPauseSettings() {
       document.getElementById("pauseOverlay").style.display = "none";
       document.getElementById("pauseMenu").style.display = "none";
       exitGame(true);
     }
     
-    // Функция "Выйти": если openSettings не передан, запрашиваем подтверждение; иначе выходим и открываем настройки.
+    // Функция "Выйти": если openSettings не передан – запрашиваем подтверждение; либо выходим и открываем настройки
     function exitGame(openSettings) {
       if (!openSettings && !confirm("Вы действительно хотите выйти?")) {
         return;
@@ -583,20 +581,17 @@
       document.getElementById("pauseOverlay").style.display = "none";
       document.getElementById("pauseMenu").style.display = "none";
       document.querySelector(".container").style.display = "block";
-      if (openSettings) {
-        showSettings();
-      }
+      if (openSettings) { showSettings(); }
       let startBtn = document.getElementById("taskbarStartBtn");
       startBtn.classList.remove("stop");
       startBtn.textContent = "Пуск";
-      // Останавливаем фоновую музыку
       document.getElementById("bgMusic").pause();
     }
     
-    // Кнопка "работать": увеличивает счётчик рублей и запускает всплывающую анимацию "+₽"
+    // Кнопка "работать": увеличивает счётчик рублей, выводя число с символом рубля, и запускает анимацию "+₽"
     function work() {
       rublesCount++;
-      document.getElementById("counter").textContent = "Рубли: " + rublesCount;
+      document.getElementById("counter").textContent = rublesCount + " ₽";
       
       let popup = document.createElement("span");
       popup.className = "money-popup";
@@ -621,14 +616,12 @@
       document.getElementById("menu").classList.add("active");
     }
     
-    // Обработчик для кнопки "Пуск/Стоп" в панели задач:
+    // Обработчик для кнопки "Пуск/Стоп" в панели задач
     document.getElementById("taskbarStartBtn").addEventListener("click", function() {
-      if (gameActive && !gamePaused) {
-        stopGame();
-      }
+      if (gameActive && !gamePaused) { stopGame(); }
     });
     
-    // Обработчики для настроек
+    // Настройка звука: изменение переключателя музыки и ползунков
     document.getElementById("musicToggle").addEventListener("change", function() {
       const bgMusic = document.getElementById("bgMusic");
       if (this.checked) {
