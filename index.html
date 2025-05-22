@@ -154,6 +154,20 @@
       font-size: 12px;
       text-transform: uppercase;
     }
+    /* График крипто-активов (спарклайн) */
+    .crypto-asset .chart {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      height: 30px;
+      margin-top: 5px;
+    }
+    .crypto-asset .chart span {
+      display: inline-block;
+      width: 5px;
+      margin: 0 1px;
+      background: #00cc00;
+    }
     /* ИГРОВОЙ ЭКРАН */
     #game {
       position: fixed;
@@ -521,7 +535,7 @@
     let shiftInterval = null;
     let inBreak = false;
     let shiftCount = 0;
-    let soundVolume = 0.5; // громкость звуков (0 до 1)
+    let soundVolume = 0.5; // громкость звуков (от 0 до 1)
 
     // Крипто-активы (начальная цена 50 ₽ за единицу)
     let cryptoAssets = {
@@ -719,7 +733,24 @@
       }, 1000);
     }
 
-    // Запуск игры: скрываем главное меню, показываем игровой экран, запускаем рабочую фазу
+    // Функции для переключения между меню главного экрана
+    function showSettings() {
+      document.getElementById("menu").classList.remove("active");
+      document.getElementById("rules").classList.remove("active");
+      document.getElementById("settings").classList.add("active");
+    }
+    function showRules() {
+      document.getElementById("menu").classList.remove("active");
+      document.getElementById("settings").classList.remove("active");
+      document.getElementById("rules").classList.add("active");
+    }
+    function backToMenu() {
+      document.getElementById("settings").classList.remove("active");
+      document.getElementById("rules").classList.remove("active");
+      document.getElementById("menu").classList.add("active");
+    }
+
+    // Запуск игры
     function startGame() {
       document.querySelector(".container").style.display = "none";
       document.getElementById("game").style.display = "block";
@@ -754,7 +785,7 @@
       resumeTimer();
     }
 
-    // Открытие настроек из меню паузы (выход в главное меню с переходом в настройки)
+    // Открытие настроек из паузы (выход в главное меню с переходом к настройкам)
     function openPauseSettings() {
       document.getElementById("pauseOverlay").style.display = "none";
       document.getElementById("pauseMenu").style.display = "none";
@@ -790,6 +821,13 @@
       document.getElementById("workButton").appendChild(popup);
       setTimeout(() => { popup.remove(); }, 1000);
     }
+
+    // Добавляем событие для кнопки "Пуск" на панели задач для остановки игры (паузы) при клике, если игра запущена
+    document.getElementById("taskbarStartBtn").addEventListener("click", function() {
+      if (gameActive && !gamePaused) {
+        stopGame();
+      }
+    });
   </script>
 </body>
 </html>
