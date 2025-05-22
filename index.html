@@ -54,7 +54,7 @@
       padding: 10px;
     }
     
-    /* Секции меню, настроек и правил – показывается только активная */
+    /* Секции меню, настроек и правил — показывается только активная */
     .menu, .settings, .rules {
       display: none;
     }
@@ -133,16 +133,26 @@
       align-items: center;
       z-index: 1000;
     }
-    /* Блок с кнопкой Пуск */
+    /* Кнопка "Пуск/Стоп", стилизованная с помощью CSS вместо изображения */
     .taskbar .start-section {
       margin-left: 5px;
     }
-    .taskbar .start-button-img {
-      width: 32px;
+    .start-button {
+      width: 80px;
       height: 32px;
-      image-rendering: pixelated;
+      border: 1px solid #808080;
+      border-radius: 2px;
+      background: linear-gradient(to bottom, #00cc00, #009900); /* зелёный фон */
+      color: #fff;
+      font-size: 12px;
+      text-transform: uppercase;
       cursor: pointer;
     }
+    /* Когда игра активна – красный фон, класс .stop добавляется */
+    .start-button.stop {
+      background: linear-gradient(to bottom, #ff4444, #cc0000);
+    }
+    
     /* Блок со ссылками на TG канал, Discord и TG аккаунт */
     .taskbar .links-section {
       margin-left: 10px;
@@ -171,7 +181,7 @@
       background-size: cover;
       display: none;
       z-index: 900;
-      /* Анимация: фон стартует мутным с затемнением, а затем становится ярким */
+      /* Анимация перехода: фон стартует мутным и растянутым, затем становится ярким */
       animation: bgAnimation 3s ease-in-out forwards;
     }
     @keyframes bgAnimation {
@@ -189,7 +199,7 @@
       }
     }
     
-    /* Интерфейс игрового экрана: счётчик вверху по центру и кнопка "работать" по центру */
+    /* Интерфейс игрового экрана: счётчик по центру сверху и кнопка "работать" по центру */
     #game .game-ui {
       position: relative;
       width: 100%;
@@ -209,6 +219,7 @@
       text-shadow: 1px 1px 0 #000;
     }
     .game-btn {
+      position: relative; /* для абсолютного позиционирования всплывающего элемента */
       padding: 10px 20px;
       font-size: 16px;
       text-transform: uppercase;
@@ -216,6 +227,28 @@
       border: 1px solid #808080;
       box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
       cursor: pointer;
+    }
+    
+    /* Анимация для всплывающего "+₽" */
+    .money-popup {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      font-size: 16px;
+      color: #0f0;
+      animation: flyUp 1s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes flyUp {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -30px);
+      }
     }
   </style>
 </head>
@@ -277,8 +310,7 @@
   <!-- Панель задач в стиле Windows XP -->
   <div class="taskbar">
     <div class="start-section">
-      <!-- При старте используем зелёную кнопку Start, которая затем переключится на красную Stop -->
-      <img id="taskbarStartBtn" src="your-green-start-button.png" alt="Пуск" class="start-button-img">
+      <button id="taskbarStartBtn" class="start-button">Пуск</button>
     </div>
     <div class="links-section">
       <a href="https://t.me/bubilny" target="_blank">TG канал</a>  
@@ -291,32 +323,50 @@
     let rublesCount = 0;
     let gameActive = false;
     
-    // При нажатии на кнопку "Играть" запускаем игру, обновляем фон, анимацию и иконку
+    // При нажатии на кнопку "Играть" запускаем игру, показывая игровой экран с анимацией и меняя кнопку в панели задач
     function startGame() {
       document.querySelector(".container").style.display = "none";
       const gameScreen = document.getElementById("game");
       gameScreen.style.display = "block";
+      // Перезапускаем анимацию игрового фона
       gameScreen.style.animation = 'none';
-      gameScreen.offsetHeight; // Перезапускаем анимацию
+      gameScreen.offsetHeight;
       gameScreen.style.animation = null;
       gameActive = true;
-      // Меняем иконку в панели задач на красную (Stop)
-      document.getElementById("taskbarStartBtn").src = "your-red-stop-button.png";
+      // Меняем состояние кнопки "Пуск" на "Стоп"
+      let startBtn = document.getElementById("taskbarStartBtn");
+      startBtn.classList.add("stop");
+      startBtn.textContent = "Стоп";
     }
     
-    // При нажатии на кнопку в панели задач, если игра активна – останавливаем её
+    // При нажатии на кнопку "Пуск/Стоп" в панели задач, если игра активна – останавливаем её и возвращаем главное меню
     function stopGame() {
       document.querySelector(".container").style.display = "block";
       document.getElementById("game").style.display = "none";
       gameActive = false;
-      // Возвращаем зелёную иконку Start
-      document.getElementById("taskbarStartBtn").src = "your-green-start-button.png";
+      let startBtn = document.getElementById("taskbarStartBtn");
+      startBtn.classList.remove("stop");
+      startBtn.textContent = "Пуск";
     }
     
-    // Функция для кнопки "работать" – увеличивает счётчик заработка
+    // Функция для кнопки "работать" – увеличивает счётчик и показывает всплывающую анимацию "+₽"
     function work() {
       rublesCount++;
       document.getElementById("counter").textContent = "Рубли: " + rublesCount;
+      
+      // Создаем элемент для анимации "+₽"
+      let popup = document.createElement("span");
+      popup.className = "money-popup";
+      popup.textContent = "+₽";
+      
+      // Добавляем элемент внутрь кнопки "работать"
+      let workButton = document.getElementById("workButton");
+      workButton.appendChild(popup);
+      
+      // Удаляем всплывающий элемент после завершения анимации (1 секунда)
+      setTimeout(() => {
+        popup.remove();
+      }, 1000);
     }
     
     // Переключение между разделами главного меню
@@ -334,12 +384,11 @@
       document.getElementById("menu").classList.add("active");
     }
     
-    // Добавляем обработчик клика на кнопке Пуск/Стоп
+    // Обработчик клика для кнопки "Пуск/Стоп" в панели задач
     document.getElementById("taskbarStartBtn").addEventListener("click", function() {
       if (gameActive) {
         stopGame();
       }
-      // Если игра не активна, оставляем кнопку только для отображения состояния (или можно реализовать вызов меню)
     });
   </script>
 </body>
