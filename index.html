@@ -19,7 +19,6 @@
       background: url('your-background-file.jpg') no-repeat center center;
       background-size: cover;
     }
-    
     /* "Окошко" приложения (Главное меню) */
     .container {
       width: 90%;
@@ -29,7 +28,6 @@
       border: 2px solid #808080;
       box-shadow: 4px 4px 0px #808080;
     }
-    
     /* Заголовок окна с синим градиентом Windows XP */
     .xp-header {
       background: linear-gradient(to right, #0a246a, #2a5dab);
@@ -48,12 +46,10 @@
       font-size: 16px;
       margin: 0;
     }
-    
     /* Основной контент окна */
     .content {
       padding: 10px;
     }
-    
     /* Секции меню – отображается только активная */
     .menu, .settings, .rules {
       display: none;
@@ -61,7 +57,6 @@
     .menu.active, .settings.active, .rules.active {
       display: block;
     }
-    
     /* Кнопки в стиле Windows XP для главного меню */
     .xp-btn, .xp-back-btn {
       display: block;
@@ -77,8 +72,7 @@
       border: 1px solid #808080;
       box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
     }
-    
-    /* Стили для переключателей и ползунков в настройках */
+    /* Стили переключателей и ползунков в настройках */
     .toggle, .slider-container {
       margin: 10px 0;
     }
@@ -94,7 +88,6 @@
     input[type="range"] {
       width: 100%;
     }
-    
     /* Версия приложения */
     .version {
       text-align: right;
@@ -102,7 +95,6 @@
       margin-top: 10px;
       color: #555;
     }
-    
     /* Адаптация для маленьких экранов */
     @media (max-width: 480px) {
       .container {
@@ -119,7 +111,6 @@
         font-size: 8px;
       }
     }
-    
     /* Панель задач в стиле Windows XP */
     .taskbar {
       position: fixed;
@@ -133,27 +124,24 @@
       align-items: center;
       z-index: 1000;
     }
-    /* Кнопка "Пуск/Стоп" – стилевое решение через CSS */
     .taskbar .start-section {
       margin-left: 5px;
     }
+    /* Кнопка "Пуск/Стоп" – реализована через CSS */
     .start-button {
       width: 80px;
       height: 32px;
       border: 1px solid #808080;
       border-radius: 2px;
-      background: linear-gradient(to bottom, #00cc00, #009900); /* зелёный фон по умолчанию */
+      background: linear-gradient(to bottom, #00cc00, #009900);
       color: #fff;
       font-size: 12px;
       text-transform: uppercase;
       cursor: pointer;
     }
-    /* При активной игре – красный фон */
     .start-button.stop {
       background: linear-gradient(to bottom, #ff4444, #cc0000);
     }
-    
-    /* Блок ссылок в панели задач */
     .taskbar .links-section {
       margin-left: 10px;
       display: flex;
@@ -169,7 +157,6 @@
       text-transform: uppercase;
       text-decoration: none;
     }
-    
     /* Игровой экран – растянут на весь экран с анимацией смены фона */
     #game {
       position: fixed;
@@ -197,7 +184,6 @@
         transform: scale(1);
       }
     }
-    
     /* Интерфейс игрового экрана */
     #game .game-ui {
       position: relative;
@@ -242,7 +228,7 @@
       border-radius: 5px;
       z-index: 1001;
     }
-    /* Кнопка "работать" с анимацией наведения и нажатия */
+    /* Кнопка "работать" с анимациями наведения и нажатия */
     .game-btn {
       position: relative;
       padding: 10px 20px;
@@ -281,11 +267,10 @@
         transform: translate(-50%, -30px);
       }
     }
-    
-    /* Стили для меню Пуск (пауза) */
+    /* Меню Пуск (режим паузы) */
     .pause-menu {
       position: fixed;
-      bottom: 40px; /* чуть выше панели задач */
+      bottom: 40px;
       left: 5px;
       background: #f0f0f0;
       border: 1px solid #808080;
@@ -308,8 +293,7 @@
     .pause-btn:hover {
       background: linear-gradient(to bottom, #d4d0c8, #ffffff);
     }
-    
-    /* Оверлей для паузы: затемнение экрана и блокировка кликов */
+    /* Оверлей для паузы: затемнение экрана, блокировка кликов и мигающая надпись "ПАУЗА" */
     .pause-overlay {
       position: fixed;
       top: 0;
@@ -321,7 +305,6 @@
       display: none;
       pointer-events: all;
     }
-    /* Мигание надписи "ПАУЗА" */
     .pause-label {
       position: absolute;
       top: 50%;
@@ -336,8 +319,7 @@
       50% { opacity: 0; }
       100% { opacity: 1; }
     }
-    
-    /* Окно предупреждения (аналог окна в Windows XP) для перекура */
+    /* Окно предупреждения для перекура (аналог окна Windows XP) */
     .break-alert {
       position: fixed;
       top: 50%;
@@ -415,11 +397,11 @@
   <!-- Игровой экран -->
   <div id="game">
     <div class="game-ui">
-      <!-- Таймер смены/перекура в левом верхнем углу -->
+      <!-- Таймер смены/перекура (левый верхний угол) -->
       <div id="shiftTimer" class="shift-timer">Смена: 00:30</div>
-      <!-- Счётчик заработанных рублей – по центру сверху -->
+      <!-- Счётчик заработанных рублей (центр сверху) -->
       <div id="counter" class="counter">Рубли: 0</div>
-      <!-- Счётчик смен – в правом верхнем углу -->
+      <!-- Счётчик смен (правый верхний угол) -->
       <div id="shiftCounter" class="shift-counter">Смена: 0</div>
       <!-- Кнопка "работать" -->
       <button id="workButton" class="game-btn" onclick="work()">работать</button>
@@ -438,7 +420,7 @@
     </div>
   </div>
   
-  <!-- Пауза: затемняющий оверлей -->
+  <!-- Оверлей для паузы с мигающей надписью "ПАУЗА" -->
   <div id="pauseOverlay" class="pause-overlay">
     <div class="pause-label">ПАУЗА</div>
   </div>
@@ -467,7 +449,7 @@
     let inBreak = false;
     let shiftCount = 0;
     
-    // Форматирование времени mm:ss
+    // Форматирование времени в формате mm:ss
     function formatTime(seconds) {
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
@@ -503,7 +485,7 @@
       }, 1000);
     }
     
-    // Начало рабочей фазы: увеличиваем счётчик смен и обновляем его отображение
+    // Начало рабочей фазы: увеличиваем счётчик смен и запускаем таймер
     function startWorkPhase() {
       inBreak = false;
       remainingTime = shiftDuration;
@@ -521,7 +503,7 @@
       }, 1000);
     }
     
-    // Начало перекура: останавливаем работу, проигрываем звонок, показываем предупреждение
+    // Начало перекура: проигрываем звонок, показываем окно предупреждения, запускаем таймер перекура
     function startBreakPhase() {
       inBreak = true;
       remainingTime = breakDuration;
@@ -529,8 +511,8 @@
       updateShiftTimerDisplay();
       // Проигрываем звонок
       document.getElementById("breakBell").play();
-      // Показываем окно предупреждения с анимацией
-      let alertElem = document.getElementById("breakAlert");
+      // Показываем окно предупреждения перекура с анимацией
+      const alertElem = document.getElementById("breakAlert");
       alertElem.style.display = "block";
       alertElem.style.animation = "alertFadeIn 0.5s forwards";
       setTimeout(() => { alertElem.style.display = "none"; }, 3000);
@@ -545,7 +527,104 @@
       }, 1000);
     }
     
-    // Анимация для окна предупреждения перекура
-    // (CSS-анимация alertFadeIn определена в стилях)
+    // Запуск игры: скрываем главное меню, показываем игровой экран, запускаем рабочую фазу,
+    // меняем кнопку панели задач на "Стоп"
+    function startGame() {
+      document.querySelector(".container").style.display = "none";
+      const gameScreen = document.getElementById("game");
+      gameScreen.style.display = "block";
+      gameScreen.style.animation = 'none';
+      gameScreen.offsetHeight;
+      gameScreen.style.animation = null;
+      gameActive = true;
+      gamePaused = false;
+      let startBtn = document.getElementById("taskbarStartBtn");
+      startBtn.classList.add("stop");
+      startBtn.textContent = "Стоп";
+      startWorkPhase();
+    }
     
-    // Запуск игры: скрываем главное меню, показываем игровой экран
+    // При нажатии на кнопку "Стоп" (на панели задач) игра ставится на паузу:
+    // - останавливаем таймер,
+    // - показываем затемняющий оверлей и меню паузы, блокируя клики по рабочим элементам.
+    function stopGame() {
+      if (gameActive && !gamePaused) {
+        clearInterval(shiftInterval);
+        gamePaused = true;
+        document.getElementById("pauseOverlay").style.display = "block";
+        document.getElementById("pauseMenu").style.display = "block";
+      }
+    }
+    
+    // Продолжить игру: скрываем оверлей и меню, возобновляем таймер.
+    function resumeGame() {
+      document.getElementById("pauseOverlay").style.display = "none";
+      document.getElementById("pauseMenu").style.display = "none";
+      gamePaused = false;
+      resumeTimer();
+    }
+    
+    // Открыть настройки из меню паузы – выходим в главное меню и открываем настройки.
+    function openPauseSettings() {
+      document.getElementById("pauseOverlay").style.display = "none";
+      document.getElementById("pauseMenu").style.display = "none";
+      exitGame(true); // true = открыть настройки
+    }
+    
+    // Функция "Выйти": если параметр openSettings не передан, выводим подтверждение; при подтверждении завершаем игру.
+    function exitGame(openSettings) {
+      if (!openSettings && !confirm("Вы действительно хотите выйти?")) {
+        return;
+      }
+      clearInterval(shiftInterval);
+      gameActive = false;
+      gamePaused = false;
+      document.getElementById("game").style.display = "none";
+      document.getElementById("pauseOverlay").style.display = "none";
+      document.getElementById("pauseMenu").style.display = "none";
+      document.querySelector(".container").style.display = "block";
+      if (openSettings) {
+        showSettings();
+      }
+      let startBtn = document.getElementById("taskbarStartBtn");
+      startBtn.classList.remove("stop");
+      startBtn.textContent = "Пуск";
+    }
+    
+    // Кнопка "работать": увеличивает счётчик рублей и запускает всплывающую анимацию "+₽"
+    function work() {
+      rublesCount++;
+      document.getElementById("counter").textContent = "Рубли: " + rublesCount;
+      
+      let popup = document.createElement("span");
+      popup.className = "money-popup";
+      popup.textContent = "+₽";
+      let workButton = document.getElementById("workButton");
+      workButton.appendChild(popup);
+      setTimeout(() => { popup.remove(); }, 1000);
+    }
+    
+    // Переключение между разделами главного меню
+    function showSettings() {
+      document.getElementById("menu").classList.remove("active");
+      document.getElementById("settings").classList.add("active");
+    }
+    function showRules() {
+      document.getElementById("menu").classList.remove("active");
+      document.getElementById("rules").classList.add("active");
+    }
+    function backToMenu() {
+      document.getElementById("settings").classList.remove("active");
+      document.getElementById("rules").classList.remove("active");
+      document.getElementById("menu").classList.add("active");
+    }
+    
+    // Обработчик для кнопки "Пуск/Стоп" в панели задач:
+    document.getElementById("taskbarStartBtn").addEventListener("click", function() {
+      if (gameActive && !gamePaused) {
+        stopGame();
+      }
+    });
+  </script>
+</body>
+</html>
