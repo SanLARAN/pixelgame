@@ -4,22 +4,23 @@
   <meta charset="UTF-8">
   <title>Телеграм игра - Windows XP стиль</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Подключаем шрифт Tahoma, который был популярен в эпоху Windows XP -->
+  <!-- Подключаем шрифт Tahoma, характерный для Windows XP -->
   <link href="https://fonts.googleapis.com/css?family=Tahoma:400,700&display=swap" rel="stylesheet">
   <style>
-    /* Универсальные стили для корректного отображения всех элементов */
-    * {
-      box-sizing: border-box;
-    }
-    body {
+    /* Гарантируем, что html и body занимают всю высоту окна */
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    /* Фон рабочего стола — растянутый на весь экран */
+    body {
       font-family: Tahoma, sans-serif;
-      /* Фон всегда растягивается на весь экран и центрирован */
       background: url('your-background-file.jpg') no-repeat center center;
       background-size: cover;
     }
     
-    /* Основное окно приложения в стиле Windows XP */
+    /* "Окошко" приложения (как окно на Рабочем столе) */
     .container {
       width: 90%;
       max-width: 400px;
@@ -29,7 +30,7 @@
       box-shadow: 4px 4px 0px #808080;
     }
     
-    /* Заголовок окна с синим градиентом, напоминающим XP */
+    /* Заголовок окна с характерным синим градиентом Windows XP */
     .xp-header {
       background: linear-gradient(to right, #0a246a, #2a5dab);
       color: #fff;
@@ -53,7 +54,7 @@
       padding: 10px;
     }
     
-    /* Секции меню, настроек и правил – только активная видна */
+    /* Секции меню, настроек и правил — видна только активная */
     .menu, .settings, .rules {
       display: none;
     }
@@ -77,7 +78,7 @@
       box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
     }
     
-    /* Настройки — переключатель и ползунки */
+    /* Стили настроек — переключатели и ползунки */
     .toggle, .slider-container {
       margin: 10px 0;
     }
@@ -102,7 +103,7 @@
       color: #555;
     }
     
-    /* Адаптация для экранов до 480px */
+    /* Адаптация для маленьких экранов */
     @media (max-width: 480px) {
       .container {
         max-width: 350px;
@@ -130,11 +131,23 @@
       border-top: 1px solid #808080;
       display: flex;
       align-items: center;
-      justify-content: center;
-      z-index: 1000;
     }
-    .taskbar a {
-      margin: 0 10px;
+    /* Блок с кнопкой Пуск — изображением */
+    .taskbar .start-section {
+      margin-left: 5px;
+    }
+    .taskbar .start-button-img {
+      width: 32px;
+      height: 32px;
+      image-rendering: pixelated;
+    }
+    /* Блок со ссылками на каналы/аккаунты */
+    .taskbar .links-section {
+      margin-left: 10px;
+      display: flex;
+      gap: 10px;
+    }
+    .taskbar .links-section a {
       padding: 5px 10px;
       background: linear-gradient(to bottom, #ffffff, #d4d0c8);
       border: 1px solid #808080;
@@ -147,8 +160,9 @@
   </style>
 </head>
 <body>
+  <!-- "Рабочий стол" Windows с окном приложения -->
   <div class="container">
-    <!-- Заголовок окна с логотипом и названием "R.O.S.T." -->
+    <!-- Заголовок окна с логотипом и названием -->
     <div class="xp-header">
       <img src="your-logo.png" alt="Логотип" class="logo">
       <h1>R.O.S.T.</h1>
@@ -193,29 +207,34 @@
     </div>
   </div>
   
-  <!-- Панель задач в стиле Windows XP с тремя кнопками-ссылками -->
+  <!-- Панель задач в стиле Windows XP -->
   <div class="taskbar">
-    <a href="https://t.me/bubilny" target="_blank">TG канал</a>
-    <a href="https://discord.gg/yourDiscordLink" target="_blank">Discord</a>
-    <a href="https://t.me/DaisukeNarotan" target="_blank">Мой TG</a>
+    <!-- Кнопка "Пуск" — изображение -->
+    <div class="start-section">
+      <img src="your-start-button.png" alt="Пуск" class="start-button-img">
+    </div>
+    <!-- Ссылки на TG канал, Discord и ваш TG-аккаунт -->
+    <div class="links-section">
+      <a href="https://t.me/bubilny" target="_blank">TG канал</a>  
+      <a href="https://discord.gg/yourDiscordLink" target="_blank">Discord</a>
+      <a href="https://t.me/DaisukeNarotan" target="_blank">Мой TG</a>
+    </div>
   </div>
   
   <script>
-    // Функция для запуска игры (здесь можно подключить игровую логику)
+    // Функция запуска игры (здесь можно подключить игровую логику)
     function startGame() {
       alert("Запуск игры...");
     }
-    // Переключение на раздел настройки
+    // Переключение между разделами
     function showSettings() {
       document.getElementById("menu").classList.remove("active");
       document.getElementById("settings").classList.add("active");
     }
-    // Переключение на раздел правил
     function showRules() {
       document.getElementById("menu").classList.remove("active");
       document.getElementById("rules").classList.add("active");
     }
-    // Возврат в главное меню
     function backToMenu() {
       document.getElementById("settings").classList.remove("active");
       document.getElementById("rules").classList.remove("active");
