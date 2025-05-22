@@ -7,19 +7,18 @@
   <!-- Подключаем шрифт Tahoma – характерный для Windows XP -->
   <link href="https://fonts.googleapis.com/css?family=Tahoma:400,700&display=swap" rel="stylesheet">
   <style>
-    /* Общие стили для html и body */
+    /* ОБЩИЕ СТИЛИ */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
     }
-    /* Фон рабочего стола */
     body {
       font-family: Tahoma, sans-serif;
       background: url('your-background-file.jpg') no-repeat center center;
       background-size: cover;
     }
-    /* Блок главного меню */
+    /* ГЛАВНОЕ МЕНЮ */
     .container {
       width: 90%;
       max-width: 400px;
@@ -28,7 +27,6 @@
       border: 2px solid #808080;
       box-shadow: 4px 4px 0px #808080;
     }
-    /* Заголовок главного меню (Windows XP стиль) */
     .xp-header {
       background: linear-gradient(to right, #0a246a, #2a5dab);
       color: #fff;
@@ -46,18 +44,15 @@
       font-size: 16px;
       margin: 0;
     }
-    /* Основной контент главного меню */
     .content {
       padding: 10px;
     }
-    /* Секции главного меню – по умолчанию скрыты */
     .menu, .settings, .rules {
       display: none;
     }
     .menu.active, .settings.active, .rules.active {
       display: block;
     }
-    /* Кнопки главного меню */
     .xp-btn, .xp-back-btn {
       display: block;
       width: 100%;
@@ -72,7 +67,6 @@
       border: 1px solid #808080;
       box-shadow: 1px 1px 0px #fff, inset -1px -1px 0px #fff;
     }
-    /* Настройки: переключатели и ползунки */
     .toggle, .slider-container {
       margin: 10px 0;
     }
@@ -88,28 +82,19 @@
     input[type="range"] {
       width: 100%;
     }
-    /* Версия приложения */
     .version {
       text-align: right;
       font-size: 10px;
       margin-top: 10px;
       color: #555;
     }
-    /* Адаптация для маленьких экранов */
     @media (max-width: 480px) {
-      .container {
-        max-width: 350px;
-      }
-      .xp-header h1 {
-        font-size: 14px;
-      }
-      .xp-btn, .xp-back-btn {
-        font-size: 10px;
-        padding: 8px;
-      }
+      .container { max-width: 350px; }
+      .xp-header h1 { font-size: 14px; }
+      .xp-btn, .xp-back-btn { font-size: 10px; padding: 8px; }
       .version { font-size: 8px; }
     }
-    /* Панель задач (Windows XP стиль) */
+    /* ПАНЕЛЬ ЗАДАЧ */
     .taskbar {
       position: fixed;
       bottom: 0;
@@ -122,10 +107,7 @@
       align-items: center;
       z-index: 1000;
     }
-    .taskbar .start-section {
-      margin-left: 5px;
-    }
-    /* Кнопка "Пуск/Стоп" */
+    .taskbar .start-section { margin-left: 5px; }
     .start-button {
       width: 80px;
       height: 32px;
@@ -155,7 +137,23 @@
       text-transform: uppercase;
       text-decoration: none;
     }
-    /* Игровой экран: фон с анимацией */
+    /* Кнопка крипто-биржи (размещается в левом нижнем углу над панелью задач) */
+    .crypto-button-container {
+      position: fixed;
+      bottom: 45px; /* чуть выше панели задач */
+      left: 5px;
+      z-index: 1100;
+    }
+    .crypto-button-container button {
+      padding: 5px 10px;
+      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      border: 1px solid #808080;
+      box-shadow: 1px 1px 0px #fff;
+      cursor: pointer;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    /* ИГРОВОЙ ЭКРАН */
     #game {
       position: fixed;
       top: 0;
@@ -173,7 +171,6 @@
       50% { filter: brightness(120%) blur(0px); transform: scale(1); }
       100% { filter: brightness(100%) blur(0px); transform: scale(1); }
     }
-    /* Интерфейс игрового экрана */
     #game .game-ui {
       position: relative;
       width: 100%;
@@ -183,7 +180,7 @@
       align-items: center;
       justify-content: center;
     }
-    /* Улучшенный счётчик рублей (Windows XP стиль) */
+    /* СЧЁТЧИК РУБЛЕЙ */
     .counter {
       position: absolute;
       top: 10px;
@@ -195,9 +192,9 @@
       background: linear-gradient(to right, #004d00, #00cc00);
       padding: 5px 10px;
       border-radius: 8px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.7);
     }
-    /* Стилизация таймера смены (левый верхний угол) в духе XP */
+    /* ТАЙМЕР СМЕНЫ (левый верхний угол) в стиле XP */
     .shift-timer {
       position: absolute;
       top: 10px;
@@ -211,7 +208,7 @@
       box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
       z-index: 1001;
     }
-    /* Стилизация счётчика смен (правый верхний угол) в духе XP */
+    /* СЧЁТЧИК СМЕН (правый верхний угол) */
     .shift-counter {
       position: absolute;
       top: 10px;
@@ -225,7 +222,7 @@
       box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
       z-index: 1001;
     }
-    /* Кнопка "работать" с анимациями */
+    /* КНОПКА "РАБОТАТЬ" */
     .game-btn {
       position: relative;
       padding: 10px 20px;
@@ -239,7 +236,7 @@
     }
     .game-btn:hover { transform: scale(1.05); }
     .game-btn:active { transform: scale(0.95); }
-    /* Всплывающая анимация "+₽" */
+    /* Анимация "+₽" */
     .money-popup {
       position: absolute;
       top: -20px;
@@ -254,7 +251,7 @@
       0% { opacity: 1; transform: translate(-50%, 0); }
       100% { opacity: 0; transform: translate(-50%, -30px); }
     }
-    /* Меню Пуск (режим паузы) */
+    /* МЕНЮ ПАУЗЫ */
     .pause-menu {
       position: fixed;
       bottom: 40px;
@@ -278,14 +275,14 @@
       font-size: 12px;
     }
     .pause-btn:hover { background: linear-gradient(to bottom, #d4d0c8, #ffffff); }
-    /* Оверлей для паузы: затемнение экрана, блокировка кликов, мигающая надпись "ПАУЗА" */
+    /* Оверлей для паузы с мигающей надписью */
     .pause-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0,0,0,0.6);
       z-index: 1050;
       display: none;
       pointer-events: all;
@@ -304,7 +301,7 @@
       50% { opacity: 0; }
       100% { opacity: 1; }
     }
-    /* Окно предупреждения для перекура (под Windows XP) */
+    /* ОКНО ПРЕДУПРЕЖДЕНИЯ ДЛЯ ПЕРЕКУРА */
     .break-alert {
       position: fixed;
       top: 50%;
@@ -334,18 +331,76 @@
       from { opacity: 0; transform: translate(-50%, -60%); }
       to { opacity: 1; transform: translate(-50%, -50%); }
     }
+    /* МОДАЛЬНОЕ ОКНО КРИПТО-БИРЖИ */
+    .crypto-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #f0f0f0;
+      border: 2px solid #808080;
+      box-shadow: 4px 4px 0px #808080;
+      z-index: 1300;
+      width: 320px;
+      padding: 15px;
+      display: none;
+    }
+    .crypto-modal h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      text-align: center;
+      background: linear-gradient(to right, #0a246a, #2a5dab);
+      color: #fff;
+      padding: 5px;
+    }
+    .crypto-asset {
+      border: 1px solid #808080;
+      padding: 5px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      background: #fff;
+    }
+    .crypto-asset h3 {
+      margin: 0 0 5px;
+      font-size: 16px;
+      text-align: center;
+    }
+    .crypto-asset p {
+      margin: 3px 0;
+      font-size: 14px;
+      text-align: center;
+    }
+    .crypto-asset button {
+      margin: 3px;
+      padding: 3px 6px;
+      font-size: 12px;
+      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      border: 1px solid #808080;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .crypto-asset button:hover {
+      background: linear-gradient(to bottom, #d4d0c8, #ffffff);
+    }
+    .crypto-modal button.close-btn {
+      display: block;
+      margin: 10px auto 0;
+      padding: 5px 15px;
+      background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+      border: 1px solid #808080;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
   </style>
 </head>
 <body>
-  <!-- Аудио элементы -->
-  <!-- Звук звонка для перекура -->
+  <!-- АУДИО ЭЛЕМЕНТЫ -->
   <audio id="breakBell" src="your-bell-sound.mp3" preload="auto"></audio>
-  <!-- Фоновая музыка -->
   <audio id="bgMusic" src="your-background-music.mp3" loop preload="auto"></audio>
-  <!-- Звук нажатия кнопок -->
   <audio id="buttonClickSound" src="your-button-click-sound.mp3" preload="auto"></audio>
   
-  <!-- Главное меню -->
+  <!-- ГЛАВНОЕ МЕНЮ -->
   <div class="container">
     <div class="xp-header">
       <img src="your-logo.png" alt="Логотип" class="logo">
@@ -384,21 +439,17 @@
     </div>
   </div>
   
-  <!-- Игровой экран -->
+  <!-- ИГРОВОЙ ЭКРАН -->
   <div id="game">
     <div class="game-ui">
-      <!-- Таймер смены/перекура (левый верхний угол) -->
       <div id="shiftTimer" class="shift-timer">Смена: 00:30</div>
-      <!-- Счётчик заработанных рублей (центр сверху) -->
       <div id="counter" class="counter">0 ₽</div>
-      <!-- Счётчик смен (правый верхний угол) -->
       <div id="shiftCounter" class="shift-counter">Смена: 0</div>
-      <!-- Кнопка "работать" -->
       <button id="workButton" class="game-btn" onclick="work()">работать</button>
     </div>
   </div>
   
-  <!-- Панель задач -->
+  <!-- ПАНЕЛЬ ЗАДАЧ -->
   <div class="taskbar">
     <div class="start-section">
       <button id="taskbarStartBtn" class="start-button">Пуск</button>
@@ -410,38 +461,57 @@
     </div>
   </div>
   
-  <!-- Оверлей для паузы с мигающей надписью "ПАУЗА" -->
+  <!-- КНОПКА КРИПТО-БИРЖИ (размещается над панелью задач, слева) -->
+  <div class="crypto-button-container">
+    <button id="cryptoButton" onclick="openCryptoModal()">Крипто-биржа</button>
+  </div>
+  
+  <!-- МОДАЛЬНОЕ ОКНО КРИПТО-БИРЖИ -->
+  <div id="cryptoModal" class="crypto-modal">
+    <h2>Крипто-биржа</h2>
+    <div id="cryptoAssets"></div>
+    <button class="close-btn" onclick="closeCryptoModal()">Закрыть</button>
+  </div>
+  
+  <!-- ОВЕРЛЕЙ ПАУЗЫ -->
   <div id="pauseOverlay" class="pause-overlay">
     <div class="pause-label">ПАУЗА</div>
   </div>
   
-  <!-- Меню Пуск (режим паузы) -->
+  <!-- МЕНЮ ПАУЗЫ -->
   <div id="pauseMenu" class="pause-menu">
     <button class="pause-btn" onclick="playButtonClick(); resumeGame()">Продолжить</button>
     <button class="pause-btn" onclick="playButtonClick(); openPauseSettings()">Настройки</button>
     <button class="pause-btn" onclick="playButtonClick(); exitGame()">Выйти</button>
   </div>
   
-  <!-- Окно предупреждения для перекура -->
+  <!-- ОКНО ПРЕДУПРЕЖДЕНИЯ ДЛЯ ПЕРЕКУРА -->
   <div id="breakAlert" class="break-alert">
     <h2>Внимание</h2>
     <p>ПЕРЕКУР</p>
   </div>
   
   <script>
+    // Глобальные переменные
     let rublesCount = 0;
     let gameActive = false;
     let gamePaused = false;
-    const shiftDuration = 30;  // длительность смены (сек)
-    const breakDuration = 15;  // длительность перекура (сек)
+    const shiftDuration = 30; // сек
+    const breakDuration = 15; // сек
     let remainingTime = shiftDuration;
     let shiftInterval = null;
     let inBreak = false;
     let shiftCount = 0;
-    // Глобальная переменная для звуковой громкости (0 до 1)
-    let soundVolume = 0.5;
+    let soundVolume = 0.5; // от 0 до 1
     
-    // Функция воспроизведения звука нажатия
+    // Определяем крипто-активы
+    let cryptoAssets = {
+      rost: { name: "$ROST", price: 100, investment: 0, investedPrice: 0, investedShift: 0 },
+      bob: { name: "BobCoin", price: 50, investment: 0, investedPrice: 0, investedShift: 0 },
+      factory: { name: "Фабрика качества", price: 200, investment: 0, investedPrice: 0, investedShift: 0 }
+    };
+    
+    // Функция воспроизведения звука нажатия кнопки
     function playButtonClick() {
       const sound = document.getElementById("buttonClickSound");
       sound.volume = soundVolume;
@@ -449,7 +519,7 @@
       sound.play();
     }
     
-    // Форматирование времени в формате mm:ss
+    // Форматирование времени mm:ss
     function formatTime(seconds) {
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
@@ -458,14 +528,86 @@
     
     function updateShiftTimerDisplay() {
       const timerEl = document.getElementById("shiftTimer");
-      if (inBreak) {
-        timerEl.textContent = "Перекур: " + formatTime(remainingTime);
-      } else {
-        timerEl.textContent = "Смена: " + formatTime(remainingTime);
+      timerEl.textContent = (inBreak ? "Перекур: " : "Смена: ") + formatTime(remainingTime);
+    }
+    
+    // Обновляем данные крипто-модали
+    function updateCryptoModal() {
+      const container = document.getElementById("cryptoAssets");
+      container.innerHTML = "";
+      for (let key in cryptoAssets) {
+        const asset = cryptoAssets[key];
+        const assetDiv = document.createElement("div");
+        assetDiv.className = "crypto-asset";
+        assetDiv.innerHTML = `
+          <h3>${asset.name}</h3>
+          <p>Цена: ${asset.price} ₽</p>
+          <p>Вложено: ${asset.investment > 0 ? asset.investment + " ₽" : "Нет"}</p>
+        `;
+        // Если инвестиция отсутствует, показываем кнопку "Вложить"
+        if (asset.investment === 0) {
+          const investBtn = document.createElement("button");
+          investBtn.textContent = "Вложить";
+          investBtn.onclick = function() { investCrypto(key); };
+          assetDiv.appendChild(investBtn);
+        } else {
+          // Если инвестировали и смена изменилась, разрешаем продажу
+          if (shiftCount > asset.investedShift) {
+            const sellBtn = document.createElement("button");
+            sellBtn.textContent = "Продать";
+            sellBtn.onclick = function() { sellCrypto(key); };
+            assetDiv.appendChild(sellBtn);
+          }
+        }
+        container.appendChild(assetDiv);
       }
     }
     
-    // Возобновление таймера
+    // Открытие модального окна крипто-биржи
+    function openCryptoModal() {
+      updateCryptoModal();
+      document.getElementById("cryptoModal").style.display = "block";
+    }
+    
+    function closeCryptoModal() {
+      document.getElementById("cryptoModal").style.display = "none";
+    }
+    
+    // Инвестирование в актив
+    function investCrypto(key) {
+      const amount = parseInt(prompt(`Введите сумму для инвестирования в ${cryptoAssets[key].name}:`));
+      if (!isNaN(amount) && amount > 0 && amount <= rublesCount) {
+        cryptoAssets[key].investment = amount;
+        cryptoAssets[key].investedPrice = cryptoAssets[key].price;
+        cryptoAssets[key].investedShift = shiftCount;
+        // Вычитание инвестированной суммы из рублёв (если нужно: здесь можно реализовать учёт инвестиций)
+        rublesCount -= amount;
+        document.getElementById("counter").textContent = rublesCount + " ₽";
+        updateCryptoModal();
+      } else {
+        alert("Неверная сумма или недостаточно рублей!");
+      }
+    }
+    
+    // Продажа актива
+    function sellCrypto(key) {
+      const asset = cryptoAssets[key];
+      if (asset.investment > 0 && shiftCount > asset.investedShift) {
+        // Вычисляем прибыль: пропорциональное изменение цены
+        const profit = Math.round(asset.investment * (asset.price - asset.investedPrice) / asset.investedPrice);
+        rublesCount += asset.investment + profit;
+        asset.investment = 0;
+        asset.investedPrice = 0;
+        asset.investedShift = 0;
+        document.getElementById("counter").textContent = rublesCount + " ₽";
+        updateCryptoModal();
+        alert(`Вы продали ${asset.name} и получили прибыль ${profit} ₽!`);
+      } else {
+        alert("Продажа недоступна, дождитесь следующей смены.");
+      }
+    }
+    
+    // Возобновление таймера (при продолжении игры)
     function resumeTimer() {
       shiftInterval = setInterval(() => {
         remainingTime--;
@@ -478,6 +620,12 @@
             updateShiftTimerDisplay();
             resumeTimer();
             document.getElementById("workButton").disabled = false;
+            // При начале новой смены, обновляем крипто-активы (рандомное изменение цены)
+            for (let key in cryptoAssets) {
+              let asset = cryptoAssets[key];
+              let factor = Math.random() * 0.2 + 0.9; // случайное число от 0.9 до 1.1
+              asset.price = Math.round(asset.price * factor);
+            }
           } else {
             startBreakPhase();
           }
@@ -485,7 +633,7 @@
       }, 1000);
     }
     
-    // Начало рабочей фазы: увеличиваем счётчик смен и запускаем таймер
+    // Начало рабочей фазы: увеличение счётчика смен и запуск таймера
     function startWorkPhase() {
       inBreak = false;
       remainingTime = shiftDuration;
@@ -493,6 +641,12 @@
       shiftCount++;
       document.getElementById("shiftCounter").textContent = "Смена: " + shiftCount;
       updateShiftTimerDisplay();
+      // Обновляем цены крипто-активов при начале каждой рабочей смены
+      for (let key in cryptoAssets) {
+        let asset = cryptoAssets[key];
+        let factor = Math.random() * 0.2 + 0.9;
+        asset.price = Math.round(asset.price * factor);
+      }
       shiftInterval = setInterval(() => {
         remainingTime--;
         updateShiftTimerDisplay();
@@ -503,13 +657,17 @@
       }, 1000);
     }
     
-    // Начало перекура: проигрываем звонок, показываем окно предупреждения, запускаем таймер перекура
+    // Начало перекура: устанавливаем состояние перекура, выключаем кнопку "работать", проигрываем звонок,
+    // показываем окно предупреждения и запускаем таймер перекура
     function startBreakPhase() {
       inBreak = true;
       remainingTime = breakDuration;
       document.getElementById("workButton").disabled = true;
       updateShiftTimerDisplay();
-      document.getElementById("breakBell").play();
+      // Обновляем громкость звонка
+      const breakBell = document.getElementById("breakBell");
+      breakBell.volume = soundVolume;
+      breakBell.play();
       const alertElem = document.getElementById("breakAlert");
       alertElem.style.display = "block";
       alertElem.style.animation = "alertFadeIn 0.5s forwards";
@@ -517,126 +675,4 @@
       shiftInterval = setInterval(() => {
         remainingTime--;
         updateShiftTimerDisplay();
-        if (remainingTime <= 0) {
-          clearInterval(shiftInterval);
-          startWorkPhase();
-        }
-      }, 1000);
-    }
-    
-    // Запуск игры: скрываем главное меню, показываем игровой экран, запускаем рабочую фазу, меняем кнопку Пуск на "Стоп"
-    function startGame() {
-      document.querySelector(".container").style.display = "none";
-      const gameScreen = document.getElementById("game");
-      gameScreen.style.display = "block";
-      gameScreen.style.animation = 'none';
-      gameScreen.offsetHeight;
-      gameScreen.style.animation = null;
-      gameActive = true;
-      gamePaused = false;
-      let startBtn = document.getElementById("taskbarStartBtn");
-      startBtn.classList.add("stop");
-      startBtn.textContent = "Стоп";
-      if (document.getElementById("musicToggle").checked) {
-        document.getElementById("bgMusic").volume = document.getElementById("musicVolume").value / 100;
-        document.getElementById("bgMusic").play();
-      }
-      startWorkPhase();
-    }
-    
-    // При нажатии на кнопку "Стоп" игра ставится на паузу: останавливаем таймер, показываем оверлей и меню паузы
-    function stopGame() {
-      if (gameActive && !gamePaused) {
-        clearInterval(shiftInterval);
-        gamePaused = true;
-        document.getElementById("pauseOverlay").style.display = "block";
-        document.getElementById("pauseMenu").style.display = "block";
-      }
-    }
-    
-    // Продолжить игру: скрываем оверлей и меню, возобновляем таймер
-    function resumeGame() {
-      document.getElementById("pauseOverlay").style.display = "none";
-      document.getElementById("pauseMenu").style.display = "none";
-      gamePaused = false;
-      resumeTimer();
-    }
-    
-    // Открыть настройки из меню паузы – выходим в главное меню и открываем настройки
-    function openPauseSettings() {
-      document.getElementById("pauseOverlay").style.display = "none";
-      document.getElementById("pauseMenu").style.display = "none";
-      exitGame(true);
-    }
-    
-    // Функция "Выйти": если openSettings не передан – запрашиваем подтверждение; либо выходим и открываем настройки
-    function exitGame(openSettings) {
-      if (!openSettings && !confirm("Вы действительно хотите выйти?")) {
-        return;
-      }
-      clearInterval(shiftInterval);
-      gameActive = false;
-      gamePaused = false;
-      document.getElementById("game").style.display = "none";
-      document.getElementById("pauseOverlay").style.display = "none";
-      document.getElementById("pauseMenu").style.display = "none";
-      document.querySelector(".container").style.display = "block";
-      if (openSettings) { showSettings(); }
-      let startBtn = document.getElementById("taskbarStartBtn");
-      startBtn.classList.remove("stop");
-      startBtn.textContent = "Пуск";
-      document.getElementById("bgMusic").pause();
-    }
-    
-    // Кнопка "работать": увеличивает счётчик рублей, выводя число с символом рубля, и запускает анимацию "+₽"
-    function work() {
-      rublesCount++;
-      document.getElementById("counter").textContent = rublesCount + " ₽";
-      
-      let popup = document.createElement("span");
-      popup.className = "money-popup";
-      popup.textContent = "+₽";
-      let workButton = document.getElementById("workButton");
-      workButton.appendChild(popup);
-      setTimeout(() => { popup.remove(); }, 1000);
-    }
-    
-    // Переключение между разделами главного меню
-    function showSettings() {
-      document.getElementById("menu").classList.remove("active");
-      document.getElementById("settings").classList.add("active");
-    }
-    function showRules() {
-      document.getElementById("menu").classList.remove("active");
-      document.getElementById("rules").classList.add("active");
-    }
-    function backToMenu() {
-      document.getElementById("settings").classList.remove("active");
-      document.getElementById("rules").classList.remove("active");
-      document.getElementById("menu").classList.add("active");
-    }
-    
-    // Обработчик для кнопки "Пуск/Стоп" в панели задач
-    document.getElementById("taskbarStartBtn").addEventListener("click", function() {
-      if (gameActive && !gamePaused) { stopGame(); }
-    });
-    
-    // Настройка звука: изменение переключателя музыки и ползунков
-    document.getElementById("musicToggle").addEventListener("change", function() {
-      const bgMusic = document.getElementById("bgMusic");
-      if (this.checked) {
-        bgMusic.volume = document.getElementById("musicVolume").value / 100;
-        bgMusic.play();
-      } else {
-        bgMusic.pause();
-      }
-    });
-    document.getElementById("musicVolume").addEventListener("input", function() {
-      document.getElementById("bgMusic").volume = this.value / 100;
-    });
-    document.getElementById("soundVolume").addEventListener("input", function() {
-      soundVolume = this.value / 100;
-    });
-  </script>
-</body>
-</html>
+        if (remainingTime <= 0
